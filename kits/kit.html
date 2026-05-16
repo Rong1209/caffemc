@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>CAFFE MC - Kit Shop</title>
+
+<link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+<link rel="stylesheet" href="kit.css">
+
+</head>
+<body>
+
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+
+<nav class="navbar">
+
+<a href="../index.html" class="back-btn">← Back</a>
+
+<button class="cart-btn" onclick="openOrder()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+</nav>
+
+<div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+<div class="video-box">
+<div class="close-video" onclick="closeVideo()">×</div>
+<video id="popupVideo" controls autoplay>
+<source id="videoSrc" src="" type="video/mp4">
+</video>
+</div>
+</div>
+
+<div class="order-popup" id="orderPopup">
+<div class="order-box">
+
+<div class="close-btn" onclick="closeOrder()">×</div>
+
+<h2>ORDER CHECKOUT</h2>
+
+<img src="../img/qr.png" class="qr">
+
+<p class="qr-name">PISETH YOUN</p>
+
+<a href="../img/qr.png" download="PISETH-YOUN-QR.png" class="download-qr">
+Download QR
+</a>
+
+<div class="cart-list" id="cartList"></div>
+
+<div class="input-box">
+<input type="text" id="username" placeholder="Minecraft Username">
+</div>
+
+<div class="edition-box">
+<div class="ed-btn active" onclick="selectEdition('Java', this)">Java</div>
+<div class="ed-btn" onclick="selectEdition('Bedrock', this)">Bedrock</div>
+</div>
+
+<input type="file" id="proofUpload" accept="image/*">
+
+<button class="submit-btn" onclick="submitOrder()">Submit Order</button>
+
+<p id="status"></p>
+
+</div>
+</div>
+
+<section class="kit-section">
+
+<div class="kit-card">
+<img src="../img/kit3.png">
+
+<div>
+<h2>AMERICANO</h2>
+<p class="price">$0.99</p>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('AMERICANO - $1')">Add to Cart</button>
+<button class="view" onclick="openVideo('../img/video.mp4')">Preview</button>
+</div>
+</div>
+
+<div class="kit-card">
+<img src="../img/kit4.png">
+
+<div>
+<h2>CAPPUCINO</h2>
+<p class="price">$1.99</p>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('CAPPUCINO - $2')">Add to Cart</button>
+<button class="view" onclick="openVideo('../img/capuchino.mp4')">Preview</button>
+</div>
+</div>
+
+<div class="kit-card">
+<img src="../img/kit2.png">
+
+<div>
+<h2>HOTLATTE</h2>
+<p class="price">$2.99</p>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('HOTLATTE - $3')">Add to Cart</button>
+<button class="view" onclick="openVideo('../img/hotlate.mp4')">Preview</button>
+</div>
+</div>
+
+<div class="kit-card">
+<img src="../img/kit6.png">
+
+<div>
+<h2>EXPRESSO</h2>
+<p class="price">$3.99</p>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('EXPRESSO - $4')">Add to Cart</button>
+<button class="view" onclick="openVideo('../img/expres.mp4')">Preview</button>
+</div>
+</div>
+
+<div class="kit-card">
+<img src="../img/kit1.png">
+
+<div>
+<h2>ULTRA CAFFE</h2>
+<p class="price">$4.99</p>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('ULTRA CAFFE - $5')">Add to Cart</button>
+<button class="view" onclick="openVideo('../img/ultracaffe.mp4')">Preview</button>
+</div>
+</div>
+
+</section>
+
+<script src="kit.js"></script>
+
+</body>
+</html>
