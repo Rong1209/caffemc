@@ -1,11 +1,20 @@
 let cart = [];
 let edition = "Java";
 
-/* KEY BACKEND */
 const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
 const SHOP_TYPE = "KEY";
 
-/* ADD TO CART */
+function getDeviceId() {
+  let id = localStorage.getItem("caffemc_device_id");
+
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("caffemc_device_id", id);
+  }
+
+  return id;
+}
+
 function addToCart(item, button) {
   let found = cart.find(i => i.name === item);
 
@@ -20,23 +29,21 @@ function addToCart(item, button) {
 
   if (button) {
     const card = button.closest(".key-card");
-
-    if (card) {
-      card.classList.add("in-cart");
-    }
+    if (card) card.classList.add("in-cart");
   }
 
   updateCart();
 }
 
-/* UPDATE CART */
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
   const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+
   if (cartCount) {
-    cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
+    cartCount.innerText = totalItems;
   }
 
   if (checkoutTopBtn) {
@@ -80,7 +87,6 @@ function updateCart() {
   });
 }
 
-/* REMOVE ITEM */
 function removeItem(index) {
   const removedItem = cart[index].name;
 
@@ -102,7 +108,6 @@ function removeItem(index) {
   updateCart();
 }
 
-/* OPEN ORDER */
 function openOrder() {
   const popup = document.getElementById("orderPopup");
 
@@ -113,7 +118,6 @@ function openOrder() {
   updateCart();
 }
 
-/* CLOSE ORDER */
 function closeOrder() {
   const popup = document.getElementById("orderPopup");
 
@@ -122,7 +126,6 @@ function closeOrder() {
   }
 }
 
-/* SELECT JAVA / BEDROCK */
 function selectEdition(type, element) {
   edition = type;
 
@@ -133,7 +136,6 @@ function selectEdition(type, element) {
   element.classList.add("active");
 }
 
-/* OPEN IMAGE */
 function openImage(src) {
   const popup = document.getElementById("imgPopup");
   const image = document.getElementById("popupImage");
@@ -144,7 +146,6 @@ function openImage(src) {
   image.src = src;
 }
 
-/* CLOSE IMAGE */
 function closeImage() {
   const popup = document.getElementById("imgPopup");
   const image = document.getElementById("popupImage");
@@ -155,24 +156,28 @@ function closeImage() {
   image.src = "";
 }
 
-/* CLICK BACKGROUND CLOSE */
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
     closeImage();
   }
 }
 
-/* SUBMIT KEY ORDER */
 async function submitOrder() {
   const usernameInput = document.getElementById("username");
   const fileInput = document.getElementById("proofUpload");
   const status = document.getElementById("status");
+  const submitBtn =
+    document.getElementById("submitBtn") ||
+    document.querySelector(".submit-btn") ||
+    document.querySelector(".checkout-btn");
 
   const username = usernameInput.value.trim();
   const file = fileInput.files[0];
 
   status.innerHTML = "";
   status.classList.remove("error", "success");
+
+  if (submitBtn && submitBtn.disabled) return;
 
   if (username === "") {
     status.classList.add("error");
@@ -208,9 +213,15 @@ async function submitOrder() {
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
   formData.append("shopType", SHOP_TYPE);
+  formData.append("deviceId", getDeviceId());
   formData.append("file", file);
 
   try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+    }
+
     status.classList.add("success");
     status.innerHTML = "⏳ Sending order...";
 
@@ -219,8 +230,10 @@ async function submitOrder() {
       body: formData
     });
 
+    const data = await response.json().catch(() => ({}));
+
     if (!response.ok) {
-      throw new Error("Backend failed");
+      throw new Error(data.error || "Backend failed");
     }
 
     status.innerHTML = `
@@ -244,16 +257,19 @@ async function submitOrder() {
 
     status.classList.remove("success");
     status.classList.add("error");
-    status.innerHTML = "❌ Failed to send order!";
+    status.innerHTML = `❌ ${error.message}`;
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Order";
+    }
   }
 }
 
-/* DISABLE RIGHT CLICK */
 document.addEventListener("contextmenu", function(e) {
   e.preventDefault();
 });
 
-/* DISABLE COMMON INSPECT KEYS */
 document.addEventListener("keydown", function(e) {
   if (e.key === "F12") {
     e.preventDefault();
