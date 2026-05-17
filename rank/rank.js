@@ -1,7 +1,8 @@
 let cart = [];
 let edition = "Java";
 
-const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev/";
+const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
+const SHOP_TYPE = "RANK";
 
 function getDeviceId() {
   let id = localStorage.getItem("caffemc_device_id");
@@ -14,11 +15,22 @@ function getDeviceId() {
   return id;
 }
 
-function addToCart(item) {
+function addToCart(item, button) {
   let found = cart.find(i => i.name === item);
 
-  if (found) found.qty += 1;
-  else cart.push({ name: item, qty: 1 });
+  if (found) {
+    found.qty += 1;
+  } else {
+    cart.push({
+      name: item,
+      qty: 1
+    });
+  }
+
+  if (button) {
+    const card = button.closest(".rank-card");
+    if (card) card.classList.add("in-cart");
+  }
 
   updateCart();
 }
@@ -26,12 +38,37 @@ function addToCart(item) {
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
+  const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
-  cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+
+  if (cartCount) {
+    cartCount.innerText = totalItems;
+  }
+
+  if (checkoutTopBtn) {
+    if (cart.length > 0) {
+      checkoutTopBtn.classList.add("show");
+    } else {
+      checkoutTopBtn.classList.remove("show");
+    }
+  }
+
+  if (!list) return;
+
   list.innerHTML = "";
 
   if (cart.length === 0) {
-    list.innerHTML = `<p style="text-align:center;opacity:.7;">Cart is empty</p>`;
+    list.innerHTML = `
+      <p style="text-align:center;opacity:.7;">
+        Cart is empty
+      </p>
+    `;
+
+    document.querySelectorAll(".rank-card").forEach(card => {
+      card.classList.remove("in-cart");
+    });
+
     return;
   }
 
@@ -39,24 +76,54 @@ function updateCart() {
     list.innerHTML += `
       <div class="cart-item">
         <span>${item.name} x${item.qty}</span>
-        <button class="remove-btn" onclick="removeItem(${index})">×</button>
+
+        <button
+          class="remove-btn"
+          onclick="removeItem(${index})">
+          ×
+        </button>
       </div>
     `;
   });
 }
 
 function removeItem(index) {
+  const removedItem = cart[index].name;
+
   cart.splice(index, 1);
+
+  const stillExist = cart.find(i => i.name === removedItem);
+
+  if (!stillExist) {
+    document.querySelectorAll(".rank-card").forEach(card => {
+      if (
+        card.dataset.rank === removedItem ||
+        removedItem.startsWith(card.dataset.rank)
+      ) {
+        card.classList.remove("in-cart");
+      }
+    });
+  }
+
   updateCart();
 }
 
 function openOrder() {
-  document.getElementById("orderPopup").style.display = "flex";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "flex";
+  }
+
   updateCart();
 }
 
 function closeOrder() {
-  document.getElementById("orderPopup").style.display = "none";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
 
 function selectEdition(type, element) {
@@ -69,10 +136,32 @@ function selectEdition(type, element) {
   element.classList.add("active");
 }
 
+function openImage(src) {
+  const popup = document.getElementById("imgPopup");
+  const image = document.getElementById("popupImage");
+
+  if (!popup || !image) return;
+
+  popup.style.display = "flex";
+  image.src = src;
+}
+
+function closeImage() {
+  const popup = document.getElementById("imgPopup");
+  const image = document.getElementById("popupImage");
+
+  if (!popup || !image) return;
+
+  popup.style.display = "none";
+  image.src = "";
+}
+
 function openVideo(src) {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
   const videoSrc = document.getElementById("videoSrc");
+
+  if (!popup || !video || !videoSrc) return;
 
   popup.style.display = "flex";
   videoSrc.src = src;
@@ -84,6 +173,8 @@ function closeVideo() {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
 
+  if (!popup || !video) return;
+
   popup.style.display = "none";
   video.pause();
   video.currentTime = 0;
@@ -91,6 +182,7 @@ function closeVideo() {
 
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
+    closeImage();
     closeVideo();
   }
 }
@@ -100,13 +192,20 @@ async function submitOrder() {
   const fileInput = document.getElementById("proofUpload");
   const status = document.getElementById("status");
 
+  const submitBtn =
+    document.getElementById("submitBtn") ||
+    document.querySelector(".submit-btn") ||
+    document.querySelector(".checkout-btn");
+
   const username = usernameInput.value.trim();
   const file = fileInput.files[0];
 
   status.innerHTML = "";
   status.classList.remove("error", "success");
 
-  if (!username) {
+  if (submitBtn && submitBtn.disabled) return;
+
+  if (username === "") {
     status.classList.add("error");
     status.innerHTML = "❌ Username is required!";
     usernameInput.focus();
@@ -125,28 +224,30 @@ async function submitOrder() {
     return;
   }
 
-  if (BACKEND_URL.includes("YOUR_SUBDOMAIN")) {
-    status.classList.add("error");
-    status.innerHTML = "❌ Backend URL missing!";
-    return;
-  }
-
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
+
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
 
   const formData = new FormData();
+
   formData.append("username", username);
   formData.append("edition", edition);
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
+  formData.append("shopType", SHOP_TYPE);
   formData.append("deviceId", getDeviceId());
   formData.append("file", file);
 
   try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+    }
+
     status.classList.add("success");
     status.innerHTML = "⏳ Sending order...";
 
@@ -155,7 +256,7 @@ async function submitOrder() {
       body: formData
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
       throw new Error(data.error || "Backend failed");
@@ -178,8 +279,51 @@ async function submitOrder() {
     }, 3000);
 
   } catch (error) {
+    console.error(error);
+
     status.classList.remove("success");
     status.classList.add("error");
     status.innerHTML = `❌ ${error.message}`;
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Order";
+    }
   }
 }
+
+document.addEventListener("contextmenu", function(e) {
+  e.preventDefault();
+});
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "F12") {
+    e.preventDefault();
+    return false;
+  }
+
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") {
+    e.preventDefault();
+    return false;
+  }
+
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j") {
+    e.preventDefault();
+    return false;
+  }
+
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "c") {
+    e.preventDefault();
+    return false;
+  }
+
+  if (e.ctrlKey && e.key.toLowerCase() === "u") {
+    e.preventDefault();
+    return false;
+  }
+
+  if (e.ctrlKey && e.key.toLowerCase() === "s") {
+    e.preventDefault();
+    return false;
+  }
+});
