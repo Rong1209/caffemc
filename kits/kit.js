@@ -1,11 +1,12 @@
 let cart = [];
 let edition = "Java";
 
-/* YOUR CLOUDFLARE WORKER BACKEND */
+/* KIT BACKEND */
 const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
+const SHOP_TYPE = "KIT";
 
 /* ADD TO CART */
-function addToCart(item) {
+function addToCart(item, button) {
   let found = cart.find(i => i.name === item);
 
   if (found) {
@@ -17,6 +18,14 @@ function addToCart(item) {
     });
   }
 
+  if (button) {
+    const card = button.closest(".kit-card");
+
+    if (card) {
+      card.classList.add("in-cart");
+    }
+  }
+
   updateCart();
 }
 
@@ -24,8 +33,22 @@ function addToCart(item) {
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
+  const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
-  cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
+  if (cartCount) {
+    cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
+  }
+
+  if (checkoutTopBtn) {
+    if (cart.length > 0) {
+      checkoutTopBtn.classList.add("show");
+    } else {
+      checkoutTopBtn.classList.remove("show");
+    }
+  }
+
+  if (!list) return;
+
   list.innerHTML = "";
 
   if (cart.length === 0) {
@@ -34,6 +57,11 @@ function updateCart() {
         Cart is empty
       </p>
     `;
+
+    document.querySelectorAll(".kit-card").forEach(card => {
+      card.classList.remove("in-cart");
+    });
+
     return;
   }
 
@@ -54,19 +82,44 @@ function updateCart() {
 
 /* REMOVE ITEM */
 function removeItem(index) {
+  const removedItem = cart[index].name;
+
   cart.splice(index, 1);
+
+  const stillExist = cart.find(i => i.name === removedItem);
+
+  if (!stillExist) {
+    document.querySelectorAll(".kit-card").forEach(card => {
+      if (
+        card.dataset.kit === removedItem ||
+        removedItem.startsWith(card.dataset.kit)
+      ) {
+        card.classList.remove("in-cart");
+      }
+    });
+  }
+
   updateCart();
 }
 
 /* OPEN ORDER */
 function openOrder() {
-  document.getElementById("orderPopup").style.display = "flex";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "flex";
+  }
+
   updateCart();
 }
 
 /* CLOSE ORDER */
 function closeOrder() {
-  document.getElementById("orderPopup").style.display = "none";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
 
 /* SELECT JAVA / BEDROCK */
@@ -86,6 +139,8 @@ function openVideo(src) {
   const video = document.getElementById("popupVideo");
   const videoSrc = document.getElementById("videoSrc");
 
+  if (!popup || !video || !videoSrc) return;
+
   popup.style.display = "flex";
   videoSrc.src = src;
 
@@ -98,20 +153,22 @@ function closeVideo() {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
 
+  if (!popup || !video) return;
+
   popup.style.display = "none";
 
   video.pause();
   video.currentTime = 0;
 }
 
-/* CLICK BACKGROUND CLOSE VIDEO */
+/* CLICK BACKGROUND CLOSE */
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
     closeVideo();
   }
 }
 
-/* SUBMIT ORDER TO CLOUDFLARE BACKEND */
+/* SUBMIT KIT ORDER */
 async function submitOrder() {
   const usernameInput = document.getElementById("username");
   const fileInput = document.getElementById("proofUpload");
@@ -142,12 +199,6 @@ async function submitOrder() {
     return;
   }
 
-  if (BACKEND_URL.includes("YOUR_SUBDOMAIN")) {
-    status.classList.add("error");
-    status.innerHTML = "❌ Backend URL missing!";
-    return;
-  }
-
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
@@ -162,6 +213,7 @@ async function submitOrder() {
   formData.append("edition", edition);
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
+  formData.append("shopType", SHOP_TYPE);
   formData.append("file", file);
 
   try {
@@ -239,27 +291,3 @@ document.addEventListener("keydown", function(e) {
     return false;
   }
 });
-
-/* BASIC DEVTOOLS DETECTION */
-setInterval(() => {
-  const widthDiff = window.outerWidth - window.innerWidth;
-  const heightDiff = window.outerHeight - window.innerHeight;
-
-  if (widthDiff > 160 || heightDiff > 160) {
-    document.body.innerHTML = `
-      <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:#020617;
-        color:#ef4444;
-        font-family:Arial,sans-serif;
-        font-size:26px;
-        text-align:center;
-        padding:20px;">
-        Inspect is disabled.
-      </div>
-    `;
-  }
-}, 1000);
