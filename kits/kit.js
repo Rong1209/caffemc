@@ -1,12 +1,20 @@
 let cart = [];
 let edition = "Java";
 
-/* KIT BACKEND */
-const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
-const SHOP_TYPE = "KIT";
+const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev/";
 
-/* ADD TO CART */
-function addToCart(item, button) {
+function getDeviceId() {
+  let id = localStorage.getItem("caffemc_device_id");
+
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("caffemc_device_id", id);
+  }
+
+  return id;
+}
+
+function addToCart(item) {
   let found = cart.find(i => i.name === item);
 
   if (found) {
@@ -18,37 +26,14 @@ function addToCart(item, button) {
     });
   }
 
-  if (button) {
-    const card = button.closest(".kit-card");
-
-    if (card) {
-      card.classList.add("in-cart");
-    }
-  }
-
   updateCart();
 }
 
-/* UPDATE CART */
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
-  const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
-  if (cartCount) {
-    cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
-  }
-
-  if (checkoutTopBtn) {
-    if (cart.length > 0) {
-      checkoutTopBtn.classList.add("show");
-    } else {
-      checkoutTopBtn.classList.remove("show");
-    }
-  }
-
-  if (!list) return;
-
+  cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
   list.innerHTML = "";
 
   if (cart.length === 0) {
@@ -57,11 +42,6 @@ function updateCart() {
         Cart is empty
       </p>
     `;
-
-    document.querySelectorAll(".kit-card").forEach(card => {
-      card.classList.remove("in-cart");
-    });
-
     return;
   }
 
@@ -80,49 +60,20 @@ function updateCart() {
   });
 }
 
-/* REMOVE ITEM */
 function removeItem(index) {
-  const removedItem = cart[index].name;
-
   cart.splice(index, 1);
-
-  const stillExist = cart.find(i => i.name === removedItem);
-
-  if (!stillExist) {
-    document.querySelectorAll(".kit-card").forEach(card => {
-      if (
-        card.dataset.kit === removedItem ||
-        removedItem.startsWith(card.dataset.kit)
-      ) {
-        card.classList.remove("in-cart");
-      }
-    });
-  }
-
   updateCart();
 }
 
-/* OPEN ORDER */
 function openOrder() {
-  const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "flex";
-  }
-
+  document.getElementById("orderPopup").style.display = "flex";
   updateCart();
 }
 
-/* CLOSE ORDER */
 function closeOrder() {
-  const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "none";
-  }
+  document.getElementById("orderPopup").style.display = "none";
 }
 
-/* SELECT JAVA / BEDROCK */
 function selectEdition(type, element) {
   edition = type;
 
@@ -133,42 +84,32 @@ function selectEdition(type, element) {
   element.classList.add("active");
 }
 
-/* OPEN VIDEO */
 function openVideo(src) {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
   const videoSrc = document.getElementById("videoSrc");
 
-  if (!popup || !video || !videoSrc) return;
-
   popup.style.display = "flex";
   videoSrc.src = src;
-
   video.load();
   video.play();
 }
 
-/* CLOSE VIDEO */
 function closeVideo() {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
 
-  if (!popup || !video) return;
-
   popup.style.display = "none";
-
   video.pause();
   video.currentTime = 0;
 }
 
-/* CLICK BACKGROUND CLOSE */
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
     closeVideo();
   }
 }
 
-/* SUBMIT KIT ORDER */
 async function submitOrder() {
   const usernameInput = document.getElementById("username");
   const fileInput = document.getElementById("proofUpload");
@@ -180,7 +121,7 @@ async function submitOrder() {
   status.innerHTML = "";
   status.classList.remove("error", "success");
 
-  if (username === "") {
+  if (!username) {
     status.classList.add("error");
     status.innerHTML = "❌ Username is required!";
     usernameInput.focus();
@@ -199,10 +140,15 @@ async function submitOrder() {
     return;
   }
 
+  if (BACKEND_URL.includes("YOUR_SUBDOMAIN")) {
+    status.classList.add("error");
+    status.innerHTML = "❌ Backend URL missing!";
+    return;
+  }
+
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
-
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
@@ -213,7 +159,7 @@ async function submitOrder() {
   formData.append("edition", edition);
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
-  formData.append("shopType", SHOP_TYPE);
+  formData.append("deviceId", getDeviceId());
   formData.append("file", file);
 
   try {
@@ -225,8 +171,10 @@ async function submitOrder() {
       body: formData
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Backend failed");
+      throw new Error(data.error || "Failed to send order.");
     }
 
     status.innerHTML = `
@@ -250,16 +198,14 @@ async function submitOrder() {
 
     status.classList.remove("success");
     status.classList.add("error");
-    status.innerHTML = "❌ Failed to send order!";
+    status.innerHTML = `❌ ${error.message}`;
   }
 }
 
-/* DISABLE RIGHT CLICK */
 document.addEventListener("contextmenu", function(e) {
   e.preventDefault();
 });
 
-/* DISABLE COMMON INSPECT KEYS */
 document.addEventListener("keydown", function(e) {
   if (e.key === "F12") {
     e.preventDefault();
@@ -291,3 +237,26 @@ document.addEventListener("keydown", function(e) {
     return false;
   }
 });
+
+setInterval(() => {
+  const widthDiff = window.outerWidth - window.innerWidth;
+  const heightDiff = window.outerHeight - window.innerHeight;
+
+  if (widthDiff > 160 || heightDiff > 160) {
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:#020617;
+        color:#ef4444;
+        font-family:Arial,sans-serif;
+        font-size:26px;
+        text-align:center;
+        padding:20px;">
+        Inspect is disabled.
+      </div>
+    `;
+  }
+}, 1000);
