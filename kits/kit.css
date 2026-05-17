@@ -11,6 +11,8 @@ color:white;
 overflow-x:hidden;
 }
 
+/* BACKGROUND */
+
 .bg-image{
 position:fixed;
 width:100%;
@@ -21,8 +23,12 @@ animation:zoomBg 22s infinite alternate;
 }
 
 @keyframes zoomBg{
-from{transform:scale(1);}
-to{transform:scale(1.08);}
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.08);
+}
 }
 
 .bg-overlay{
@@ -92,7 +98,7 @@ text-shadow:
 0 0 20px rgba(239,68,68,.5);
 }
 
-/* FLOATING CHECK ORDER BUTTON */
+/* FLOATING CHECKOUT */
 
 .checkout-top-btn{
 display:none;
@@ -121,20 +127,25 @@ display:block;
 }
 
 .checkout-top-btn:hover{
-transform:translateX(-50%) translateY(-4px);
+transform:
+translateX(-50%)
+translateY(-4px);
 }
 
 @keyframes checkoutPulseBottom{
+
 from{
 box-shadow:
 0 8px 0 rgba(80,0,0,.65),
 0 0 15px rgba(239,68,68,.35);
 }
+
 to{
 box-shadow:
 0 10px 0 rgba(80,0,0,.65),
 0 0 35px rgba(239,68,68,.85);
 }
+
 }
 
 /* KIT SECTION */
@@ -157,12 +168,16 @@ border-radius:20px;
 padding:30px 18px 24px;
 text-align:center;
 border:1px solid rgba(255,255,255,.12);
+
 box-shadow:
 0 14px 0 rgba(0,0,0,.45),
 0 25px 45px rgba(0,0,0,.45),
 inset 0 0 25px rgba(255,255,255,.03);
+
 backdrop-filter:blur(8px);
+
 transition:.25s;
+
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -171,26 +186,35 @@ justify-content:space-between;
 
 .kit-card:hover{
 transform:translateY(-8px);
+
 border-color:rgba(34,197,94,.45);
+
 box-shadow:
 0 16px 0 rgba(0,0,0,.55),
 0 0 30px rgba(34,197,94,.22);
 }
 
+/* GLOW WHEN ADDED */
+
 .kit-card.in-cart{
+
 border-color:#22c55e;
+
 box-shadow:
 0 16px 0 rgba(0,0,0,.55),
 0 0 35px rgba(34,197,94,.75),
 0 0 70px rgba(34,197,94,.22),
 inset 0 0 25px rgba(34,197,94,.14);
+
 animation:cartGlow 1.2s infinite alternate;
 }
 
 .kit-card.in-cart .buy{
 background:linear-gradient(135deg,#16a34a,#22c55e);
 color:#07110b;
-box-shadow:0 0 18px rgba(34,197,94,.85);
+
+box-shadow:
+0 0 18px rgba(34,197,94,.85);
 }
 
 .kit-card.in-cart .buy::after{
@@ -198,23 +222,34 @@ content:" ✓";
 }
 
 @keyframes cartGlow{
-from{transform:translateY(-4px);}
-to{transform:translateY(-8px);}
+from{
+transform:translateY(-4px);
+}
+to{
+transform:translateY(-8px);
+}
 }
 
-/* KIT IMAGE */
+/* IMAGE */
 
 .kit-card img{
 width:150px;
 height:150px;
 object-fit:contain;
-filter:drop-shadow(0 18px 18px rgba(0,0,0,.45));
+
+filter:
+drop-shadow(0 18px 18px rgba(0,0,0,.45));
 }
+
+/* TEXT */
 
 .kit-card h2{
 font-size:27px;
 margin-top:20px;
-background:linear-gradient(180deg,#4ade80,#22c55e);
+
+background:
+linear-gradient(180deg,#4ade80,#22c55e);
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
@@ -223,8 +258,11 @@ background:linear-gradient(180deg,#4ade80,#22c55e);
 font-size:26px;
 color:#22c55e;
 font-weight:bold;
+
 margin-top:10px;
-text-shadow:0 0 12px rgba(34,197,94,.45);
+
+text-shadow:
+0 0 12px rgba(34,197,94,.45);
 }
 
 /* BUTTONS */
@@ -241,8 +279,10 @@ padding:12px 15px;
 border:none;
 border-radius:10px;
 cursor:pointer;
+
 font-family:'Minecraft';
 font-size:12px;
+
 transition:.2s;
 }
 
@@ -267,9 +307,11 @@ transform:translateY(-3px);
 position:fixed;
 inset:0;
 background:rgba(0,0,0,.85);
+
 display:none;
 justify-content:center;
 align-items:center;
+
 z-index:999;
 }
 
@@ -288,16 +330,22 @@ border-radius:16px;
 position:absolute;
 top:-12px;
 right:-12px;
+
 width:30px;
 height:30px;
+
 background:#ef4444;
 color:white;
+
 border-radius:6px;
+
 display:flex;
 justify-content:center;
 align-items:center;
+
 font-size:16px;
 cursor:pointer;
+
 z-index:10;
 }
 
@@ -307,9 +355,11 @@ z-index:10;
 position:fixed;
 inset:0;
 background:rgba(0,0,0,.85);
+
 display:none;
 justify-content:center;
 align-items:center;
+
 z-index:9999;
 }
 
@@ -317,11 +367,17 @@ z-index:9999;
 width:90%;
 max-width:390px;
 max-height:92vh;
+
 overflow-y:auto;
-background:linear-gradient(145deg,#0f172a,#111827);
+
+background:
+linear-gradient(145deg,#0f172a,#111827);
+
 padding:24px 20px;
+
 border-radius:18px;
 text-align:center;
+
 position:relative;
 }
 
@@ -329,14 +385,19 @@ position:relative;
 position:absolute;
 top:10px;
 right:10px;
+
 width:22px;
 height:22px;
+
 background:#ef4444;
 color:white;
+
 border-radius:4px;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 font-size:14px;
 cursor:pointer;
 }
@@ -346,38 +407,54 @@ font-size:22px;
 margin-bottom:10px;
 }
 
+/* QR */
+
 .qr{
 width:150px;
 height:150px;
+
 object-fit:cover;
+
 margin:8px auto 10px;
+
 display:block;
+
 border-radius:12px;
 }
 
 .qr-name{
 margin-top:4px;
 margin-bottom:8px;
+
 font-size:13px;
 color:#22c55e;
+
 letter-spacing:1px;
 }
 
 .download-qr{
 display:inline-block;
+
 margin-bottom:12px;
+
 padding:9px 14px;
+
 background:#1e293b;
 color:white;
+
 text-decoration:none;
+
 border-radius:10px;
+
 font-size:12px;
+
 transition:.2s;
 }
 
 .download-qr:hover{
 background:#22c55e;
 color:#07110b;
+
 transform:scale(1.04);
 }
 
@@ -385,10 +462,15 @@ transform:scale(1.04);
 
 .cart-list{
 background:rgba(0,0,0,.32);
+
 padding:10px;
+
 border-radius:12px;
+
 margin:10px 0;
+
 text-align:left;
+
 max-height:145px;
 overflow-y:auto;
 }
@@ -397,21 +479,31 @@ overflow-y:auto;
 display:flex;
 justify-content:space-between;
 align-items:center;
+
 background:rgba(15,23,42,.8);
+
 padding:8px 10px;
+
 border-radius:8px;
+
 margin-bottom:8px;
+
 font-size:14px;
 }
 
 .remove-btn{
 width:24px;
 height:24px;
+
 background:#ef4444;
 color:white;
+
 border:none;
+
 border-radius:6px;
+
 cursor:pointer;
+
 display:flex;
 align-items:center;
 justify-content:center;
@@ -421,12 +513,19 @@ justify-content:center;
 
 .input-box input{
 width:100%;
+
 padding:13px 14px;
+
 background:#0f172a;
+
 border:1px solid rgba(255,255,255,.12);
+
 border-radius:12px;
+
 color:white;
+
 outline:none;
+
 font-family:'Minecraft';
 }
 
@@ -439,16 +538,23 @@ color:rgba(255,255,255,.55);
 .edition-box{
 display:flex;
 gap:10px;
+
 margin:10px 0;
 }
 
 .ed-btn{
 flex:1;
+
 padding:12px;
+
 background:#1e293b;
+
 border-radius:10px;
+
 cursor:pointer;
+
 text-align:center;
+
 transition:.2s;
 }
 
@@ -461,10 +567,15 @@ color:black;
 
 #proofUpload{
 width:100%;
+
 margin-top:5px;
+
 padding:8px;
+
 background:#0f172a;
+
 border-radius:10px;
+
 color:white;
 }
 
@@ -472,16 +583,26 @@ color:white;
 
 .submit-btn{
 width:100%;
+
 margin-top:12px;
+
 padding:14px;
+
 border:none;
+
 border-radius:12px;
-background:linear-gradient(135deg,#22c55e,#16a34a);
+
+background:
+linear-gradient(135deg,#22c55e,#16a34a);
+
 color:#07110b;
+
 font-family:Arial,sans-serif;
 font-size:15px;
 font-weight:700;
+
 cursor:pointer;
+
 transition:.2s;
 }
 
@@ -493,24 +614,34 @@ transform:scale(1.02);
 
 #status{
 margin-top:12px;
+
 font-family:Arial,sans-serif;
+
 font-size:14px;
 line-height:1.5;
 }
 
 #status.error{
 color:#ef4444;
+
 background:rgba(239,68,68,.12);
+
 border:1px solid rgba(239,68,68,.35);
+
 padding:10px;
+
 border-radius:10px;
 }
 
 #status.success{
 color:#22c55e;
+
 background:rgba(34,197,94,.12);
+
 border:1px solid rgba(34,197,94,.35);
+
 padding:10px;
+
 border-radius:10px;
 }
 
@@ -540,8 +671,11 @@ max-width:310px;
 .checkout-top-btn{
 width:88%;
 max-width:320px;
+
 bottom:18px;
+
 font-size:13px;
+
 padding:15px 20px;
 }
 
