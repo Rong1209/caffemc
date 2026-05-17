@@ -1,7 +1,8 @@
 let cart = [];
 let edition = "Java";
 
-const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev/";
+const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
+const SHOP_TYPE = "KIT";
 
 function getDeviceId() {
   let id = localStorage.getItem("caffemc_device_id");
@@ -14,7 +15,7 @@ function getDeviceId() {
   return id;
 }
 
-function addToCart(item) {
+function addToCart(item, button) {
   let found = cart.find(i => i.name === item);
 
   if (found) {
@@ -26,14 +27,35 @@ function addToCart(item) {
     });
   }
 
+  if (button) {
+    const card = button.closest(".kit-card");
+    if (card) card.classList.add("in-cart");
+  }
+
   updateCart();
 }
 
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
+  const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
-  cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
+  const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+
+  if (cartCount) {
+    cartCount.innerText = totalItems;
+  }
+
+  if (checkoutTopBtn) {
+    if (cart.length > 0) {
+      checkoutTopBtn.classList.add("show");
+    } else {
+      checkoutTopBtn.classList.remove("show");
+    }
+  }
+
+  if (!list) return;
+
   list.innerHTML = "";
 
   if (cart.length === 0) {
@@ -42,6 +64,11 @@ function updateCart() {
         Cart is empty
       </p>
     `;
+
+    document.querySelectorAll(".kit-card").forEach(card => {
+      card.classList.remove("in-cart");
+    });
+
     return;
   }
 
@@ -61,17 +88,42 @@ function updateCart() {
 }
 
 function removeItem(index) {
+  const removedItem = cart[index].name;
+
   cart.splice(index, 1);
+
+  const stillExist = cart.find(i => i.name === removedItem);
+
+  if (!stillExist) {
+    document.querySelectorAll(".kit-card").forEach(card => {
+      if (
+        card.dataset.kit === removedItem ||
+        removedItem.startsWith(card.dataset.kit)
+      ) {
+        card.classList.remove("in-cart");
+      }
+    });
+  }
+
   updateCart();
 }
 
 function openOrder() {
-  document.getElementById("orderPopup").style.display = "flex";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "flex";
+  }
+
   updateCart();
 }
 
 function closeOrder() {
-  document.getElementById("orderPopup").style.display = "none";
+  const popup = document.getElementById("orderPopup");
+
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
 
 function selectEdition(type, element) {
@@ -84,10 +136,32 @@ function selectEdition(type, element) {
   element.classList.add("active");
 }
 
+function openImage(src) {
+  const popup = document.getElementById("imgPopup");
+  const image = document.getElementById("popupImage");
+
+  if (!popup || !image) return;
+
+  popup.style.display = "flex";
+  image.src = src;
+}
+
+function closeImage() {
+  const popup = document.getElementById("imgPopup");
+  const image = document.getElementById("popupImage");
+
+  if (!popup || !image) return;
+
+  popup.style.display = "none";
+  image.src = "";
+}
+
 function openVideo(src) {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
   const videoSrc = document.getElementById("videoSrc");
+
+  if (!popup || !video || !videoSrc) return;
 
   popup.style.display = "flex";
   videoSrc.src = src;
@@ -99,6 +173,8 @@ function closeVideo() {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
 
+  if (!popup || !video) return;
+
   popup.style.display = "none";
   video.pause();
   video.currentTime = 0;
@@ -106,6 +182,7 @@ function closeVideo() {
 
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
+    closeImage();
     closeVideo();
   }
 }
@@ -115,13 +192,20 @@ async function submitOrder() {
   const fileInput = document.getElementById("proofUpload");
   const status = document.getElementById("status");
 
+  const submitBtn =
+    document.getElementById("submitBtn") ||
+    document.querySelector(".submit-btn") ||
+    document.querySelector(".checkout-btn");
+
   const username = usernameInput.value.trim();
   const file = fileInput.files[0];
 
   status.innerHTML = "";
   status.classList.remove("error", "success");
 
-  if (!username) {
+  if (submitBtn && submitBtn.disabled) return;
+
+  if (username === "") {
     status.classList.add("error");
     status.innerHTML = "❌ Username is required!";
     usernameInput.focus();
@@ -140,15 +224,10 @@ async function submitOrder() {
     return;
   }
 
-  if (BACKEND_URL.includes("YOUR_SUBDOMAIN")) {
-    status.classList.add("error");
-    status.innerHTML = "❌ Backend URL missing!";
-    return;
-  }
-
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
+
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
@@ -159,10 +238,16 @@ async function submitOrder() {
   formData.append("edition", edition);
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
+  formData.append("shopType", SHOP_TYPE);
   formData.append("deviceId", getDeviceId());
   formData.append("file", file);
 
   try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+    }
+
     status.classList.add("success");
     status.innerHTML = "⏳ Sending order...";
 
@@ -171,10 +256,10 @@ async function submitOrder() {
       body: formData
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || "Failed to send order.");
+      throw new Error(data.error || "Backend failed");
     }
 
     status.innerHTML = `
@@ -199,6 +284,11 @@ async function submitOrder() {
     status.classList.remove("success");
     status.classList.add("error");
     status.innerHTML = `❌ ${error.message}`;
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Order";
+    }
   }
 }
 
@@ -237,26 +327,3 @@ document.addEventListener("keydown", function(e) {
     return false;
   }
 });
-
-setInterval(() => {
-  const widthDiff = window.outerWidth - window.innerWidth;
-  const heightDiff = window.outerHeight - window.innerHeight;
-
-  if (widthDiff > 160 || heightDiff > 160) {
-    document.body.innerHTML = `
-      <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:#020617;
-        color:#ef4444;
-        font-family:Arial,sans-serif;
-        font-size:26px;
-        text-align:center;
-        padding:20px;">
-        Inspect is disabled.
-      </div>
-    `;
-  }
-}, 1000);
