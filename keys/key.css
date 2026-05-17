@@ -77,17 +77,13 @@ transition:.25s;
 
 .cart-btn:hover{
 transform:translateY(-3px);
-box-shadow:
-0 12px 20px rgba(0,0,0,.4),
-0 0 18px rgba(239,68,68,.22);
+box-shadow:0 12px 20px rgba(0,0,0,.4),0 0 18px rgba(239,68,68,.22);
 }
 
 .cart-count{
 color:#ef4444;
 font-weight:bold;
-text-shadow:
-0 0 10px rgba(239,68,68,.8),
-0 0 20px rgba(239,68,68,.5);
+text-shadow:0 0 10px rgba(239,68,68,.8),0 0 20px rgba(239,68,68,.5);
 }
 
 .checkout-top-btn{
@@ -105,9 +101,7 @@ border-radius:18px;
 cursor:pointer;
 font-family:'Minecraft';
 font-size:14px;
-box-shadow:
-0 8px 0 rgba(80,0,0,.65),
-0 0 25px rgba(239,68,68,.55);
+box-shadow:0 8px 0 rgba(80,0,0,.65),0 0 25px rgba(239,68,68,.55);
 animation:checkoutPulseBottom 1.2s infinite alternate;
 transition:.25s;
 }
@@ -122,14 +116,10 @@ transform:translateX(-50%) translateY(-4px);
 
 @keyframes checkoutPulseBottom{
 from{
-box-shadow:
-0 8px 0 rgba(80,0,0,.65),
-0 0 15px rgba(239,68,68,.35);
+box-shadow:0 8px 0 rgba(80,0,0,.65),0 0 15px rgba(239,68,68,.35);
 }
 to{
-box-shadow:
-0 10px 0 rgba(80,0,0,.65),
-0 0 35px rgba(239,68,68,.85);
+box-shadow:0 10px 0 rgba(80,0,0,.65),0 0 35px rgba(239,68,68,.85);
 }
 }
 
@@ -149,10 +139,7 @@ border-radius:20px;
 padding:30px 18px 24px;
 text-align:center;
 border:1px solid rgba(255,255,255,.12);
-box-shadow:
-0 14px 0 rgba(0,0,0,.45),
-0 25px 45px rgba(0,0,0,.45),
-inset 0 0 25px rgba(255,255,255,.03);
+box-shadow:0 14px 0 rgba(0,0,0,.45),0 25px 45px rgba(0,0,0,.45),inset 0 0 25px rgba(255,255,255,.03);
 backdrop-filter:blur(8px);
 transition:.25s;
 display:flex;
@@ -164,18 +151,12 @@ justify-content:space-between;
 .key-card:hover{
 transform:translateY(-8px);
 border-color:rgba(34,197,94,.45);
-box-shadow:
-0 16px 0 rgba(0,0,0,.55),
-0 0 30px rgba(34,197,94,.22);
+box-shadow:0 16px 0 rgba(0,0,0,.55),0 0 30px rgba(34,197,94,.22);
 }
 
 .key-card.in-cart{
 border-color:#22c55e;
-box-shadow:
-0 16px 0 rgba(0,0,0,.55),
-0 0 35px rgba(34,197,94,.75),
-0 0 70px rgba(34,197,94,.22),
-inset 0 0 25px rgba(34,197,94,.14);
+box-shadow:0 16px 0 rgba(0,0,0,.55),0 0 35px rgba(34,197,94,.75),0 0 70px rgba(34,197,94,.22),inset 0 0 25px rgba(34,197,94,.14);
 animation:cartGlow 1.2s infinite alternate;
 }
 
@@ -304,6 +285,8 @@ z-index:9999;
 .order-box{
 width:90%;
 max-width:390px;
+max-height:92vh;
+overflow-y:auto;
 background:linear-gradient(145deg,#0f172a,#111827);
 padding:24px 20px;
 border-radius:18px;
@@ -358,6 +341,13 @@ color:white;
 text-decoration:none;
 border-radius:10px;
 font-size:12px;
+transition:.2s;
+}
+
+.download-qr:hover{
+background:#22c55e;
+color:#07110b;
+transform:scale(1.04);
 }
 
 .cart-list{
@@ -389,6 +379,9 @@ color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .input-box input{
@@ -400,6 +393,10 @@ border-radius:12px;
 color:white;
 outline:none;
 font-family:'Minecraft';
+}
+
+.input-box input::placeholder{
+color:rgba(255,255,255,.55);
 }
 
 .edition-box{
@@ -415,6 +412,7 @@ background:#1e293b;
 border-radius:10px;
 cursor:pointer;
 text-align:center;
+transition:.2s;
 }
 
 .ed-btn.active{
@@ -443,6 +441,11 @@ font-family:Arial,sans-serif;
 font-size:15px;
 font-weight:700;
 cursor:pointer;
+transition:.2s;
+}
+
+.submit-btn:hover{
+transform:scale(1.02);
 }
 
 #status{
@@ -469,11 +472,6 @@ border-radius:10px;
 }
 
 @media(max-width:700px){
-.key-card{
-width:88%;
-max-width:310px;
-}
-
 .navbar{
 padding:16px;
 }
@@ -481,6 +479,15 @@ padding:16px;
 .back-btn,.cart-btn{
 font-size:13px;
 padding:13px 16px;
+}
+
+.cart-area{
+gap:8px;
+}
+
+.key-card{
+width:88%;
+max-width:310px;
 }
 
 .checkout-top-btn{
