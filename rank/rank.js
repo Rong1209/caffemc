@@ -1,7 +1,7 @@
 let cart = [];
 let edition = "Java";
 
-const BACKEND_URL = "https://caffemc-api.YOUR_SUBDOMAIN.workers.dev";
+const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev/";
 
 function getDeviceId() {
   let id = localStorage.getItem("caffemc_device_id");
