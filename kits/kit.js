@@ -6,26 +6,18 @@ const SHOP_TYPE = "KIT";
 
 function getDeviceId() {
   let id = localStorage.getItem("caffemc_device_id");
-
   if (!id) {
     id = crypto.randomUUID();
     localStorage.setItem("caffemc_device_id", id);
   }
-
   return id;
 }
 
 function addToCart(item, button) {
-  let found = cart.find(i => i.name === item);
+  const found = cart.find(i => i.name === item);
 
-  if (found) {
-    found.qty += 1;
-  } else {
-    cart.push({
-      name: item,
-      qty: 1
-    });
-  }
+  if (found) found.qty += 1;
+  else cart.push({ name: item, qty: 1 });
 
   if (button) {
     const card = button.closest(".kit-card");
@@ -37,29 +29,24 @@ function addToCart(item, button) {
 
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
-  const list = document.getElementById("cartList");
+  const cartList = document.getElementById("cartList");
   const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
   const totalItems = cart.reduce((a, b) => a + b.qty, 0);
 
-  if (cartCount) {
-    cartCount.innerText = totalItems;
-  }
+  if (cartCount) cartCount.innerText = totalItems;
 
   if (checkoutTopBtn) {
-    if (cart.length > 0) {
-      checkoutTopBtn.classList.add("show");
-    } else {
-      checkoutTopBtn.classList.remove("show");
-    }
+    if (totalItems > 0) checkoutTopBtn.classList.add("show");
+    else checkoutTopBtn.classList.remove("show");
   }
 
-  if (!list) return;
+  if (!cartList) return;
 
-  list.innerHTML = "";
+  cartList.innerHTML = "";
 
   if (cart.length === 0) {
-    list.innerHTML = `
+    cartList.innerHTML = `
       <p style="text-align:center;opacity:.7;">
         Cart is empty
       </p>
@@ -73,15 +60,10 @@ function updateCart() {
   }
 
   cart.forEach((item, index) => {
-    list.innerHTML += `
+    cartList.innerHTML += `
       <div class="cart-item">
         <span>${item.name} x${item.qty}</span>
-
-        <button
-          class="remove-btn"
-          onclick="removeItem(${index})">
-          ×
-        </button>
+        <button class="remove-btn" onclick="removeItem(${index})">×</button>
       </div>
     `;
   });
@@ -89,12 +71,11 @@ function updateCart() {
 
 function removeItem(index) {
   const removedItem = cart[index].name;
-
   cart.splice(index, 1);
 
-  const stillExist = cart.find(i => i.name === removedItem);
+  const stillExists = cart.find(i => i.name === removedItem);
 
-  if (!stillExist) {
+  if (!stillExists) {
     document.querySelectorAll(".kit-card").forEach(card => {
       if (
         card.dataset.kit === removedItem ||
@@ -110,20 +91,13 @@ function removeItem(index) {
 
 function openOrder() {
   const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "flex";
-  }
-
+  if (popup) popup.style.display = "flex";
   updateCart();
 }
 
 function closeOrder() {
   const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "none";
-  }
+  if (popup) popup.style.display = "none";
 }
 
 function selectEdition(type, element) {
@@ -205,7 +179,7 @@ async function submitOrder() {
 
   if (submitBtn && submitBtn.disabled) return;
 
-  if (username === "") {
+  if (!username) {
     status.classList.add("error");
     status.innerHTML = "❌ Username is required!";
     usernameInput.focus();
@@ -227,13 +201,11 @@ async function submitOrder() {
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
-
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
 
   const formData = new FormData();
-
   formData.append("username", username);
   formData.append("edition", edition);
   formData.append("cart", cartText);
@@ -292,38 +264,12 @@ async function submitOrder() {
   }
 }
 
-document.addEventListener("contextmenu", function(e) {
-  e.preventDefault();
-});
+document.addEventListener("contextmenu", e => e.preventDefault());
 
 document.addEventListener("keydown", function(e) {
-  if (e.key === "F12") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "c") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.key.toLowerCase() === "u") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.key.toLowerCase() === "s") {
-    e.preventDefault();
-    return false;
-  }
+  if (e.key === "F12") e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(e.key.toLowerCase())) e.preventDefault();
+  if (e.ctrlKey && ["u", "s"].includes(e.key.toLowerCase())) e.preventDefault();
 });
+
+document.addEventListener("DOMContentLoaded", updateCart);
