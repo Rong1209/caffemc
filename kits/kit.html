@@ -8,8 +8,8 @@
 
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 <link rel="stylesheet" href="key.css">
-
 </head>
+
 <body>
 
 <div class="bg-image"></div>
@@ -22,11 +22,9 @@
 </a>
 
 <div class="cart-area">
-
 <button class="cart-btn" onclick="openOrder()">
 🛒 Cart (<span id="cartCount" class="cart-count">0</span>)
 </button>
-
 </div>
 
 </nav>
@@ -38,7 +36,7 @@
 <div class="img-popup" id="imgPopup" onclick="closeImg(event)">
 <div class="image-box">
 <div class="close-video" onclick="closeImage()">×</div>
-<img id="popupImage" src="">
+<img id="popupImage" src="" alt="Preview">
 </div>
 </div>
 
@@ -49,7 +47,7 @@
 
 <h2>ORDER CHECKOUT</h2>
 
-<img src="../img/qr.png" class="qr">
+<img src="../img/qr.png" class="qr" alt="QR Code">
 
 <p class="qr-name">PISETH YOUN</p>
 
@@ -57,15 +55,22 @@
 Download QR
 </a>
 
-<div class="cart-list" id="cartList"></div>
+<div class="cart-list" id="cartList">
+<p style="text-align:center;opacity:.7;">Cart is empty</p>
+</div>
 
 <div class="input-box">
 <input type="text" id="username" placeholder="Minecraft Username">
 </div>
 
 <div class="edition-box">
-<div class="ed-btn active" onclick="selectEdition('Java', this)">Java</div>
-<div class="ed-btn" onclick="selectEdition('Bedrock', this)">Bedrock</div>
+<div class="ed-btn active" onclick="selectEdition('Java', this)">
+Java
+</div>
+
+<div class="ed-btn" onclick="selectEdition('Bedrock', this)">
+Bedrock
+</div>
 </div>
 
 <input type="file" id="proofUpload" accept="image/*">
@@ -82,7 +87,7 @@ Submit Order
 <section class="key-section">
 
 <div class="key-card" data-key="UTL KEY">
-<img src="../img/ultkey.png">
+<img src="../img/ultkey.png" alt="UTL KEY">
 
 <div>
 <h2>UTL KEY</h2>
@@ -90,13 +95,18 @@ Submit Order
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('UTL KEY', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/ultimatekey.png')">Preview</button>
+<button class="buy" onclick="addToCart('UTL KEY', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openImage('../img/ultimatekey.png')">
+Preview
+</button>
 </div>
 </div>
 
 <div class="key-card" data-key="HOTLATTE KEY">
-<img src="../img/hotllate.png">
+<img src="../img/hotllate.png" alt="HOTLATTE KEY">
 
 <div>
 <h2>HOTLATTE KEY</h2>
@@ -104,13 +114,18 @@ Submit Order
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('HOTLATTE KEY', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/hotkey.png')">Preview</button>
+<button class="buy" onclick="addToCart('HOTLATTE KEY', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openImage('../img/hotkey.png')">
+Preview
+</button>
 </div>
 </div>
 
 <div class="key-card" data-key="CAPPUCINO KEY">
-<img src="../img/123123.png">
+<img src="../img/123123.png" alt="CAPPUCINO KEY">
 
 <div>
 <h2>CAPPUCINO KEY</h2>
@@ -118,8 +133,13 @@ Submit Order
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('CAPPUCINO KEY', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/capukey.png')">Preview</button>
+<button class="buy" onclick="addToCart('CAPPUCINO KEY', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openImage('../img/capukey.png')">
+Preview
+</button>
 </div>
 </div>
 
