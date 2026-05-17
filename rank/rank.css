@@ -21,8 +21,12 @@ animation:zoomBg 22s infinite alternate;
 }
 
 @keyframes zoomBg{
-from{transform:scale(1);}
-to{transform:scale(1.08);}
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.08);
+}
 }
 
 .bg-overlay{
@@ -35,7 +39,7 @@ z-index:-1;
 
 .navbar{
 width:100%;
-padding:20px;
+padding:20px 24px;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -45,7 +49,7 @@ align-items:center;
 text-decoration:none;
 background:linear-gradient(135deg,#22c55e,#16a34a);
 color:#07110b;
-padding:14px 22px;
+padding:16px 28px;
 border-radius:14px;
 font-size:16px;
 font-weight:700;
@@ -67,7 +71,7 @@ align-items:center;
 background:#1e293b;
 color:white;
 border:none;
-padding:14px 20px;
+padding:15px 22px;
 border-radius:14px;
 cursor:pointer;
 font-family:'Minecraft';
@@ -184,8 +188,12 @@ content:" ✓";
 }
 
 @keyframes cartGlow{
-from{transform:translateY(-4px);}
-to{transform:translateY(-8px);}
+from{
+transform:translateY(-4px);
+}
+to{
+transform:translateY(-8px);
+}
 }
 
 .rank-card img{
@@ -232,7 +240,8 @@ gap:10px;
 justify-content:center;
 }
 
-.buy,.view{
+.buy,
+.view{
 padding:10px 14px;
 border:none;
 border-radius:10px;
@@ -251,7 +260,8 @@ background:#1e293b;
 color:white;
 }
 
-.buy:hover,.view:hover{
+.buy:hover,
+.view:hover{
 transform:translateY(-3px);
 }
 
@@ -415,6 +425,10 @@ outline:none;
 font-family:'Minecraft';
 }
 
+.input-box input::placeholder{
+color:rgba(255,255,255,.55);
+}
+
 .edition-box{
 display:flex;
 gap:10px;
@@ -428,6 +442,7 @@ background:#1e293b;
 border-radius:10px;
 cursor:pointer;
 text-align:center;
+transition:.2s;
 }
 
 .ed-btn.active{
@@ -487,11 +502,13 @@ border-radius:10px;
 }
 
 @media(max-width:700px){
+
 .navbar{
 padding:16px;
 }
 
-.back-btn,.cart-btn{
+.back-btn,
+.cart-btn{
 font-size:13px;
 padding:13px 16px;
 }
@@ -508,4 +525,10 @@ bottom:18px;
 font-size:13px;
 padding:15px 20px;
 }
+
+.order-box{
+max-height:92vh;
+overflow-y:auto;
+}
+
 }
