@@ -2,7 +2,7 @@ let cart = [];
 let edition = "Java";
 
 /* YOUR CLOUDFLARE WORKER BACKEND */
-const BACKEND_URL = "https://caffemc-api.YOUR_SUBDOMAIN.workers.dev";
+const BACKEND_URL = "https://caffemc-api.pages.dev";
 
 /* ADD TO CART */
 function addToCart(item) {
