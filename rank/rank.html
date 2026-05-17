@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CAFFE MC - Ranks</title>
+
+<link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+<link rel="stylesheet" href="rank.css">
+</head>
+
+<body>
+
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+
+<nav class="navbar">
+
+<a href="../index.html" class="back-btn">
+← Back
+</a>
+
+<div class="cart-area">
+<button class="cart-btn" onclick="openOrder()">
+🛒 Cart (<span id="cartCount" class="cart-count">0</span>)
+</button>
+</div>
+
+</nav>
+
+<button class="checkout-top-btn" id="checkoutTopBtn" onclick="openOrder()">
+🛒 Check Order
+</button>
+
+<div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+<div class="video-box">
+<div class="close-video" onclick="closeVideo()">×</div>
+
+<video id="popupVideo" controls autoplay>
+<source id="videoSrc" src="" type="video/mp4">
+</video>
+
+</div>
+</div>
+
+<div class="order-popup" id="orderPopup">
+<div class="order-box">
+
+<div class="close-btn" onclick="closeOrder()">×</div>
+
+<h2>ORDER CHECKOUT</h2>
+
+<img src="../img/qr.png" class="qr">
+
+<p class="qr-name">PISETH YOUN</p>
+
+<a href="../img/qr.png" download="PISETH-YOUN-QR.png" class="download-qr">
+Download QR
+</a>
+
+<div class="cart-list" id="cartList">
+<p style="text-align:center;opacity:.7;">Cart is empty</p>
+</div>
+
+<div class="input-box">
+<input type="text" id="username" placeholder="Minecraft Username">
+</div>
+
+<div class="edition-box">
+
+<div class="ed-btn active" onclick="selectEdition('Java', this)">
+Java
+</div>
+
+<div class="ed-btn" onclick="selectEdition('Bedrock', this)">
+Bedrock
+</div>
+
+</div>
+
+<input type="file" id="proofUpload" accept="image/*">
+
+<button class="submit-btn" onclick="submitOrder()">
+Submit Order
+</button>
+
+<p id="status"></p>
+
+</div>
+</div>
+
+<section class="rank-section">
+
+<div class="rank-card" data-rank="AMERICANO - $5">
+<img src="../img/kit3.png">
+
+<h2>AMERICANO</h2>
+
+<p class="price">$ 4.99</p>
+
+<div class="cmd-box">
+<ul>
+<li>/anvil</li>
+<li>/ec</li>
+<li>/craft</li>
+<li>Land Claim 8 Chunk</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('AMERICANO - $5', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openVideo('../img/video.mp4')">
+Preview
+</button>
+</div>
+</div>
+
+<div class="rank-card" data-rank="CAPPUCINO - $10">
+<img src="../img/kit4.png">
+
+<h2>CAPPUCINO</h2>
+
+<p class="price">$ 9.99</p>
+
+<div class="cmd-box">
+<ul>
+<li>/anvil</li>
+<li>/ec</li>
+<li>/craft</li>
+<li>Land Claim 15 Chunk</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('CAPPUCINO - $10', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openVideo('../img/capuchino.mp4')">
+Preview
+</button>
+</div>
+</div>
+
+<div class="rank-card" data-rank="HOTLATTE - $15">
+<img src="../img/kit2.png">
+
+<h2>HOTLATTE</h2>
+
+<p class="price">$ 14.99</p>
+
+<div class="cmd-box">
+<ul>
+<li>/anvil</li>
+<li>/ec</li>
+<li>/craft</li>
+<li>/fix</li>
+<li>Land Claim 20 Chunk</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('HOTLATTE - $15', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openVideo('../img/hotlate.mp4')">
+Preview
+</button>
+</div>
+</div>
+
+<div class="rank-card" data-rank="EXSPRESSO - $20">
+<img src="../img/kit6.png">
+
+<h2>EXSPRESSO</h2>
+
+<p class="price">$ 19.99</p>
+
+<div class="cmd-box">
+<ul>
+<li>/anvil</li>
+<li>/ec</li>
+<li>/craft</li>
+<li>/fix</li>
+<li>/fly</li>
+<li>Land Claim 25 Chunk</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('EXSPRESSO - $20', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openVideo('../img/expres.mp4')">
+Preview
+</button>
+</div>
+</div>
+
+<div class="rank-card" data-rank="UTL CAFFE - $25">
+<img src="../img/kit1.png">
+
+<h2>UTL CAFFE</h2>
+
+<p class="price">$ 24.99</p>
+
+<div class="cmd-box">
+<ul>
+<li>/anvil</li>
+<li>/craft</li>
+<li>/fix</li>
+<li>/fly</li>
+<li>/claim all kit</li>
+<li>Land Claim 30 Chunk</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="buy" onclick="addToCart('UTL CAFFE - $25', this)">
+Add to Cart
+</button>
+
+<button class="view" onclick="openVideo('../img/ultracaffe.mp4')">
+Preview
+</button>
+</div>
+</div>
+
+</section>
+
+<script src="rank.js"></script>
+
+</body>
+</html>
