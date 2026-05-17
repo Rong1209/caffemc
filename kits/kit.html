@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>CAFFE MC - Key Shop</title>
+<title>CAFFE MC - Kit Shop</title>
 
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
-<link rel="stylesheet" href="key.css">
-</head>
+<link rel="stylesheet" href="kit.css">
 
+</head>
 <body>
 
 <div class="bg-image"></div>
@@ -22,9 +22,11 @@
 </a>
 
 <div class="cart-area">
+
 <button class="cart-btn" onclick="openOrder()">
 🛒 Cart (<span id="cartCount" class="cart-count">0</span>)
 </button>
+
 </div>
 
 </nav>
@@ -33,49 +35,78 @@
 🛒 Check Order
 </button>
 
+<!-- VIDEO POPUP -->
+
 <div class="img-popup" id="imgPopup" onclick="closeImg(event)">
-<div class="image-box">
-<div class="close-video" onclick="closeImage()">×</div>
-<img id="popupImage" src="" alt="Preview">
+
+<div class="video-box">
+
+<div class="close-video" onclick="closeVideo()">×</div>
+
+<video id="popupVideo" controls autoplay>
+<source id="videoSrc" src="" type="video/mp4">
+</video>
+
 </div>
 </div>
 
+<!-- ORDER POPUP -->
+
 <div class="order-popup" id="orderPopup">
+
 <div class="order-box">
 
 <div class="close-btn" onclick="closeOrder()">×</div>
 
 <h2>ORDER CHECKOUT</h2>
 
-<img src="../img/qr.png" class="qr" alt="QR Code">
+<img src="../img/qr.png" class="qr" alt="QR">
 
 <p class="qr-name">PISETH YOUN</p>
 
-<a href="../img/qr.png" download="PISETH-YOUN-QR.png" class="download-qr">
+<a href="../img/qr.png"
+download="PISETH-YOUN-QR.png"
+class="download-qr">
 Download QR
 </a>
 
 <div class="cart-list" id="cartList">
-<p style="text-align:center;opacity:.7;">Cart is empty</p>
+<p style="text-align:center;opacity:.7;">
+Cart is empty
+</p>
 </div>
 
 <div class="input-box">
-<input type="text" id="username" placeholder="Minecraft Username">
+
+<input
+type="text"
+id="username"
+placeholder="Minecraft Username">
+
 </div>
 
 <div class="edition-box">
-<div class="ed-btn active" onclick="selectEdition('Java', this)">
+
+<div class="ed-btn active"
+onclick="selectEdition('Java', this)">
 Java
 </div>
 
-<div class="ed-btn" onclick="selectEdition('Bedrock', this)">
+<div class="ed-btn"
+onclick="selectEdition('Bedrock', this)">
 Bedrock
 </div>
+
 </div>
 
-<input type="file" id="proofUpload" accept="image/*">
+<input
+type="file"
+id="proofUpload"
+accept="image/*">
 
-<button class="submit-btn" onclick="submitOrder()">
+<button
+class="submit-btn"
+onclick="submitOrder()">
 Submit Order
 </button>
 
@@ -84,68 +115,158 @@ Submit Order
 </div>
 </div>
 
-<section class="key-section">
+<!-- KITS -->
 
-<div class="key-card" data-key="UTL KEY">
-<img src="../img/ultkey.png" alt="UTL KEY">
+<section class="kit-section">
+
+<!-- AMERICANO -->
+
+<div class="kit-card" data-kit="AMERICANO - $0.99">
+
+<img src="../img/kit3.png" alt="AMERICANO">
 
 <div>
-<h2>UTL KEY</h2>
+
+<h2>AMERICANO</h2>
+
 <p class="price">$0.99</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('UTL KEY', this)">
+
+<button class="buy"
+onclick="addToCart('AMERICANO - $0.99', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openImage('../img/ultimatekey.png')">
+<button class="view"
+onclick="openVideo('../img/video.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
-<div class="key-card" data-key="HOTLATTE KEY">
-<img src="../img/hotllate.png" alt="HOTLATTE KEY">
+<!-- CAPPUCINO -->
+
+<div class="kit-card" data-kit="CAPPUCINO - $1.99">
+
+<img src="../img/kit4.png" alt="CAPPUCINO">
 
 <div>
-<h2>HOTLATTE KEY</h2>
-<p class="price">$0.49</p>
+
+<h2>CAPPUCINO</h2>
+
+<p class="price">$1.99</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('HOTLATTE KEY', this)">
+
+<button class="buy"
+onclick="addToCart('CAPPUCINO - $1.99', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openImage('../img/hotkey.png')">
+<button class="view"
+onclick="openVideo('../img/capuchino.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
-<div class="key-card" data-key="CAPPUCINO KEY">
-<img src="../img/123123.png" alt="CAPPUCINO KEY">
+<!-- HOTLATTE -->
+
+<div class="kit-card" data-kit="HOTLATTE - $2.99">
+
+<img src="../img/kit2.png" alt="HOTLATTE">
 
 <div>
-<h2>CAPPUCINO KEY</h2>
-<p class="price">$0.25</p>
+
+<h2>HOTLATTE</h2>
+
+<p class="price">$2.99</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('CAPPUCINO KEY', this)">
+
+<button class="buy"
+onclick="addToCart('HOTLATTE - $2.99', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openImage('../img/capukey.png')">
+<button class="view"
+onclick="openVideo('../img/hotlate.mp4')">
 Preview
 </button>
+
+</div>
+</div>
+
+<!-- EXPRESSO -->
+
+<div class="kit-card" data-kit="EXPRESSO - $3.99">
+
+<img src="../img/kit6.png" alt="EXPRESSO">
+
+<div>
+
+<h2>EXPRESSO</h2>
+
+<p class="price">$3.99</p>
+
+</div>
+
+<div class="btns">
+
+<button class="buy"
+onclick="addToCart('EXPRESSO - $3.99', this)">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openVideo('../img/expres.mp4')">
+Preview
+</button>
+
+</div>
+</div>
+
+<!-- ULTRA CAFFE -->
+
+<div class="kit-card" data-kit="ULTRA CAFFE - $4.99">
+
+<img src="../img/kit1.png" alt="ULTRA CAFFE">
+
+<div>
+
+<h2>ULTRA CAFFE</h2>
+
+<p class="price">$4.99</p>
+
+</div>
+
+<div class="btns">
+
+<button class="buy"
+onclick="addToCart('ULTRA CAFFE - $4.99', this)">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openVideo('../img/ultracaffe.mp4')">
+Preview
+</button>
+
 </div>
 </div>
 
 </section>
 
-<script src="key.js"></script>
+<script src="kit.js"></script>
 
 </body>
 </html>
