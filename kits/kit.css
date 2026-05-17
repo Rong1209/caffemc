@@ -11,8 +11,6 @@ color:white;
 overflow-x:hidden;
 }
 
-/* BACKGROUND */
-
 .bg-image{
 position:fixed;
 width:100%;
@@ -23,30 +21,17 @@ animation:zoomBg 22s infinite alternate;
 }
 
 @keyframes zoomBg{
-
-from{
-transform:scale(1);
-}
-
-to{
-transform:scale(1.08);
-}
-
+from{transform:scale(1);}
+to{transform:scale(1.08);}
 }
 
 .bg-overlay{
 position:fixed;
 width:100%;
 height:100%;
-background:
-linear-gradient(
-rgba(2,6,23,.68),
-rgba(2,6,23,.88)
-);
+background:linear-gradient(rgba(2,6,23,.68),rgba(2,6,23,.88));
 z-index:-1;
 }
-
-/* NAVBAR */
 
 .navbar{
 width:100%;
@@ -56,24 +41,15 @@ justify-content:space-between;
 align-items:center;
 }
 
-/* BACK BUTTON */
-
 .back-btn{
 text-decoration:none;
-background:
-linear-gradient(135deg,#22c55e,#16a34a);
-
+background:linear-gradient(135deg,#22c55e,#16a34a);
 color:#07110b;
-
 padding:16px 28px;
-
 border-radius:14px;
-
 font-size:16px;
 font-weight:700;
-
 box-shadow:0 8px 0 #0e3b1f;
-
 transition:.25s;
 }
 
@@ -81,143 +57,83 @@ transition:.25s;
 transform:translateY(-3px);
 }
 
-/* CART AREA */
-
 .cart-area{
 display:flex;
 gap:12px;
 align-items:center;
 }
 
-/* CART BUTTON */
-
 .cart-btn{
 background:#1e293b;
 color:white;
 border:none;
-
 padding:15px 22px;
-
 border-radius:14px;
-
 cursor:pointer;
-
 font-family:'Minecraft';
-
-box-shadow:
-0 8px 0 rgba(0,0,0,.35);
-
+box-shadow:0 8px 0 rgba(0,0,0,.35);
 transition:.25s;
 }
 
 .cart-btn:hover{
-
 transform:translateY(-3px);
-
 box-shadow:
 0 12px 20px rgba(0,0,0,.4),
 0 0 18px rgba(239,68,68,.22);
-
 }
 
-/* RED COUNT */
-
 .cart-count{
-
 color:#ef4444;
-
 font-weight:bold;
-
 text-shadow:
 0 0 10px rgba(239,68,68,.8),
 0 0 20px rgba(239,68,68,.5);
-
 }
 
-/* FLOATING CHECK ORDER BUTTON */
-
 .checkout-top-btn{
-
 display:none;
-
 position:fixed;
-
 left:50%;
 bottom:24px;
-
 transform:translateX(-50%);
-
 z-index:9998;
-
-background:
-linear-gradient(135deg,#ef4444,#dc2626);
-
+background:linear-gradient(135deg,#ef4444,#dc2626);
 color:white;
-
 border:none;
-
 padding:16px 28px;
-
 border-radius:18px;
-
 cursor:pointer;
-
 font-family:'Minecraft';
-
 font-size:14px;
-
 box-shadow:
 0 8px 0 rgba(80,0,0,.65),
 0 0 25px rgba(239,68,68,.55);
-
-animation:
-checkoutPulseBottom 1.2s infinite alternate;
-
+animation:checkoutPulseBottom 1.2s infinite alternate;
 transition:.25s;
-
 }
-
-/* SHOW */
 
 .checkout-top-btn.show{
 display:block;
 }
 
-/* HOVER */
-
 .checkout-top-btn:hover{
-
-transform:
-translateX(-50%)
-translateY(-4px);
-
+transform:translateX(-50%) translateY(-4px);
 }
 
-/* ANIMATION */
-
 @keyframes checkoutPulseBottom{
-
 from{
-
 box-shadow:
 0 8px 0 rgba(80,0,0,.65),
 0 0 15px rgba(239,68,68,.35);
-
 }
-
 to{
-
 box-shadow:
 0 10px 0 rgba(80,0,0,.65),
 0 0 35px rgba(239,68,68,.85);
-
+}
 }
 
-}
-
-/* KITS */
-
-.kit-section{
+.key-section{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
@@ -225,155 +141,81 @@ gap:28px;
 padding:55px 20px 120px;
 }
 
-/* KIT CARD */
-
-.kit-card{
-
+.key-card{
 width:260px;
 min-height:430px;
-
 background:rgba(10,10,15,.58);
-
 border-radius:20px;
-
 padding:30px 18px 24px;
-
 text-align:center;
-
-border:
-1px solid rgba(255,255,255,.12);
-
+border:1px solid rgba(255,255,255,.12);
 box-shadow:
 0 14px 0 rgba(0,0,0,.45),
 0 25px 45px rgba(0,0,0,.45),
 inset 0 0 25px rgba(255,255,255,.03);
-
 backdrop-filter:blur(8px);
-
 transition:.25s;
-
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:space-between;
 }
 
-/* HOVER */
-
-.kit-card:hover{
-
+.key-card:hover{
 transform:translateY(-8px);
-
-border-color:
-rgba(34,197,94,.45);
-
+border-color:rgba(34,197,94,.45);
 box-shadow:
 0 16px 0 rgba(0,0,0,.55),
 0 0 30px rgba(34,197,94,.22);
-
 }
 
-/* IN CART */
-
-.kit-card.in-cart{
-
+.key-card.in-cart{
 border-color:#22c55e;
-
 box-shadow:
 0 16px 0 rgba(0,0,0,.55),
 0 0 35px rgba(34,197,94,.75),
 0 0 70px rgba(34,197,94,.22),
 inset 0 0 25px rgba(34,197,94,.14);
-
-animation:
-cartGlow 1.2s infinite alternate;
-
+animation:cartGlow 1.2s infinite alternate;
 }
 
-.kit-card.in-cart .buy{
-
-background:
-linear-gradient(135deg,#16a34a,#22c55e);
-
+.key-card.in-cart .buy{
+background:linear-gradient(135deg,#16a34a,#22c55e);
 color:#07110b;
-
-box-shadow:
-0 0 18px rgba(34,197,94,.85);
-
+box-shadow:0 0 18px rgba(34,197,94,.85);
 }
 
-.kit-card.in-cart .buy::after{
+.key-card.in-cart .buy::after{
 content:" ✓";
 }
 
-/* CARD ANIMATION */
-
 @keyframes cartGlow{
-
-from{
-transform:translateY(-4px);
+from{transform:translateY(-4px);}
+to{transform:translateY(-8px);}
 }
 
-to{
-transform:translateY(-8px);
-}
-
-}
-
-/* IMAGE */
-
-.kit-card img{
-
+.key-card img{
 width:150px;
 height:150px;
-
 object-fit:contain;
-
-filter:
-drop-shadow(
-0 18px 18px rgba(0,0,0,.45)
-);
-
+filter:drop-shadow(0 18px 18px rgba(0,0,0,.45));
 }
 
-/* TITLE */
-
-.kit-card h2{
-
+.key-card h2{
 font-size:27px;
-
 margin-top:20px;
-
-background:
-linear-gradient(
-180deg,
-#4ade80,
-#22c55e
-);
-
+background:linear-gradient(180deg,#4ade80,#22c55e);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
 }
-
-/* PRICE */
 
 .price{
-
 font-size:26px;
-
 color:#22c55e;
-
 font-weight:bold;
-
 margin-top:10px;
-
-text-shadow:
-0 0 12px rgba(34,197,94,.45);
-
+text-shadow:0 0 12px rgba(34,197,94,.45);
 }
-
-/* BUTTONS */
 
 .btns{
 display:flex;
@@ -381,25 +223,14 @@ gap:10px;
 justify-content:center;
 }
 
-/* BUY + VIEW */
-
-.buy,
-.view{
-
+.buy,.view{
 padding:12px 15px;
-
 border:none;
-
 border-radius:10px;
-
 cursor:pointer;
-
 font-family:'Minecraft';
-
 font-size:12px;
-
 transition:.2s;
-
 }
 
 .buy{
@@ -412,279 +243,164 @@ background:#1e293b;
 color:white;
 }
 
-.buy:hover,
-.view:hover{
+.buy:hover,.view:hover{
 transform:translateY(-3px);
 }
 
-/* VIDEO POPUP */
-
 .img-popup{
-
 position:fixed;
 inset:0;
-
 background:rgba(0,0,0,.85);
-
 display:none;
-
 justify-content:center;
 align-items:center;
-
 z-index:999;
-
 }
 
-.video-box{
+.image-box{
 position:relative;
 width:90%;
-max-width:850px;
+max-width:650px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-#popupVideo{
+#popupImage{
 width:100%;
+max-height:85vh;
+object-fit:contain;
 border-radius:16px;
+box-shadow:0 0 35px rgba(0,0,0,.65);
 }
 
 .close-video{
-
 position:absolute;
-
 top:-12px;
 right:-12px;
-
 width:30px;
 height:30px;
-
 background:#ef4444;
-
 color:white;
-
 border-radius:6px;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 font-size:16px;
-
 cursor:pointer;
-
+z-index:10;
 }
-
-/* ORDER POPUP */
 
 .order-popup{
-
 position:fixed;
 inset:0;
-
 background:rgba(0,0,0,.85);
-
 display:none;
-
 justify-content:center;
 align-items:center;
-
 z-index:9999;
-
 }
-
-/* ORDER BOX */
 
 .order-box{
-
 width:90%;
 max-width:390px;
-
-background:
-linear-gradient(
-145deg,
-#0f172a,
-#111827
-);
-
+background:linear-gradient(145deg,#0f172a,#111827);
 padding:24px 20px;
-
 border-radius:18px;
-
 text-align:center;
-
 position:relative;
-
 }
 
-/* CLOSE */
-
 .close-btn{
-
 position:absolute;
-
 top:10px;
 right:10px;
-
 width:22px;
 height:22px;
-
 background:#ef4444;
-
 color:white;
-
 border-radius:4px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 font-size:14px;
-
 cursor:pointer;
-
 }
-
-/* TITLE */
 
 .order-box h2{
 font-size:22px;
 margin-bottom:10px;
 }
 
-/* QR */
-
 .qr{
-
 width:150px;
 height:150px;
-
 object-fit:cover;
-
 margin:8px auto 10px;
-
 display:block;
-
 border-radius:12px;
-
 }
 
 .qr-name{
-
 margin-top:4px;
 margin-bottom:8px;
-
 font-size:13px;
-
 color:#22c55e;
-
 letter-spacing:1px;
-
 }
-
-/* DOWNLOAD */
 
 .download-qr{
-
 display:inline-block;
-
 margin-bottom:12px;
-
 padding:9px 14px;
-
 background:#1e293b;
-
 color:white;
-
 text-decoration:none;
-
 border-radius:10px;
-
 font-size:12px;
-
 }
-
-/* CART LIST */
 
 .cart-list{
-
 background:rgba(0,0,0,.32);
-
 padding:10px;
-
 border-radius:12px;
-
 margin:10px 0;
-
 text-align:left;
-
 max-height:145px;
-
 overflow-y:auto;
-
 }
 
-/* CART ITEM */
-
 .cart-item{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
-background:
-rgba(15,23,42,.8);
-
+background:rgba(15,23,42,.8);
 padding:8px 10px;
-
 border-radius:8px;
-
 margin-bottom:8px;
-
 font-size:14px;
-
 }
-
-/* REMOVE */
 
 .remove-btn{
-
 width:24px;
 height:24px;
-
 background:#ef4444;
-
 color:white;
-
 border:none;
-
 border-radius:6px;
-
 cursor:pointer;
-
 }
-
-/* INPUT */
 
 .input-box input{
-
 width:100%;
-
 padding:13px 14px;
-
 background:#0f172a;
-
-border:
-1px solid rgba(255,255,255,.12);
-
+border:1px solid rgba(255,255,255,.12);
 border-radius:12px;
-
 color:white;
-
 outline:none;
-
 font-family:'Minecraft';
-
 }
-
-/* EDITION */
 
 .edition-box{
 display:flex;
@@ -693,19 +409,12 @@ margin:10px 0;
 }
 
 .ed-btn{
-
 flex:1;
-
 padding:12px;
-
 background:#1e293b;
-
 border-radius:10px;
-
 cursor:pointer;
-
 text-align:center;
-
 }
 
 .ed-btn.active{
@@ -713,104 +422,54 @@ background:#22c55e;
 color:black;
 }
 
-/* FILE */
-
 #proofUpload{
-
 width:100%;
-
 margin-top:5px;
-
 padding:8px;
-
 background:#0f172a;
-
 border-radius:10px;
-
 color:white;
-
 }
-
-/* SUBMIT */
 
 .submit-btn{
-
 width:100%;
-
 margin-top:12px;
-
 padding:14px;
-
 border:none;
-
 border-radius:12px;
-
-background:
-linear-gradient(135deg,#22c55e,#16a34a);
-
+background:linear-gradient(135deg,#22c55e,#16a34a);
 color:#07110b;
-
 font-family:Arial,sans-serif;
-
 font-size:15px;
-
 font-weight:700;
-
 cursor:pointer;
-
 }
 
-/* STATUS */
-
 #status{
-
 margin-top:12px;
-
 font-family:Arial,sans-serif;
-
 font-size:14px;
-
 line-height:1.5;
-
 }
 
 #status.error{
-
 color:#ef4444;
-
-background:
-rgba(239,68,68,.12);
-
-border:
-1px solid rgba(239,68,68,.35);
-
+background:rgba(239,68,68,.12);
+border:1px solid rgba(239,68,68,.35);
 padding:10px;
-
 border-radius:10px;
-
 }
 
 #status.success{
-
 color:#22c55e;
-
-background:
-rgba(34,197,94,.12);
-
-border:
-1px solid rgba(34,197,94,.35);
-
+background:rgba(34,197,94,.12);
+border:1px solid rgba(34,197,94,.35);
 padding:10px;
-
 border-radius:10px;
-
 }
 
-/* MOBILE */
-
 @media(max-width:700px){
-
-.kit-card{
+.key-card{
 width:88%;
 max-width:310px;
 }
@@ -819,23 +478,16 @@ max-width:310px;
 padding:16px;
 }
 
-.back-btn,
-.cart-btn{
+.back-btn,.cart-btn{
 font-size:13px;
 padding:13px 16px;
 }
 
 .checkout-top-btn{
-
 width:88%;
 max-width:320px;
-
 bottom:18px;
-
 font-size:13px;
-
 padding:15px 20px;
-
 }
-
 }
