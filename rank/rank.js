@@ -1,67 +1,37 @@
 let cart = [];
 let edition = "Java";
 
-/* RANK BACKEND */
-const BACKEND_URL = "https://caffemc-api.saknsjs36.workers.dev";
-const SHOP_TYPE = "RANK";
+const BACKEND_URL = "https://caffemc-api.YOUR_SUBDOMAIN.workers.dev";
 
-/* ADD TO CART */
-function addToCart(item, button) {
+function getDeviceId() {
+  let id = localStorage.getItem("caffemc_device_id");
+
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("caffemc_device_id", id);
+  }
+
+  return id;
+}
+
+function addToCart(item) {
   let found = cart.find(i => i.name === item);
 
-  if (found) {
-    found.qty += 1;
-  } else {
-    cart.push({
-      name: item,
-      qty: 1
-    });
-  }
-
-  if (button) {
-    const card = button.closest(".rank-card");
-
-    if (card) {
-      card.classList.add("in-cart");
-    }
-  }
+  if (found) found.qty += 1;
+  else cart.push({ name: item, qty: 1 });
 
   updateCart();
 }
 
-/* UPDATE CART */
 function updateCart() {
   const cartCount = document.getElementById("cartCount");
   const list = document.getElementById("cartList");
-  const checkoutTopBtn = document.getElementById("checkoutTopBtn");
 
-  if (cartCount) {
-    cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
-  }
-
-  if (checkoutTopBtn) {
-    if (cart.length > 0) {
-      checkoutTopBtn.classList.add("show");
-    } else {
-      checkoutTopBtn.classList.remove("show");
-    }
-  }
-
-  if (!list) return;
-
+  cartCount.innerText = cart.reduce((a, b) => a + b.qty, 0);
   list.innerHTML = "";
 
   if (cart.length === 0) {
-    list.innerHTML = `
-      <p style="text-align:center;opacity:.7;">
-        Cart is empty
-      </p>
-    `;
-
-    document.querySelectorAll(".rank-card").forEach(card => {
-      card.classList.remove("in-cart");
-    });
-
+    list.innerHTML = `<p style="text-align:center;opacity:.7;">Cart is empty</p>`;
     return;
   }
 
@@ -69,60 +39,26 @@ function updateCart() {
     list.innerHTML += `
       <div class="cart-item">
         <span>${item.name} x${item.qty}</span>
-
-        <button
-          class="remove-btn"
-          onclick="removeItem(${index})">
-          ×
-        </button>
+        <button class="remove-btn" onclick="removeItem(${index})">×</button>
       </div>
     `;
   });
 }
 
-/* REMOVE ITEM */
 function removeItem(index) {
-  const removedItem = cart[index].name;
-
   cart.splice(index, 1);
-
-  const stillExist = cart.find(i => i.name === removedItem);
-
-  if (!stillExist) {
-    document.querySelectorAll(".rank-card").forEach(card => {
-      if (
-        card.dataset.rank === removedItem ||
-        removedItem.startsWith(card.dataset.rank)
-      ) {
-        card.classList.remove("in-cart");
-      }
-    });
-  }
-
   updateCart();
 }
 
-/* OPEN ORDER */
 function openOrder() {
-  const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "flex";
-  }
-
+  document.getElementById("orderPopup").style.display = "flex";
   updateCart();
 }
 
-/* CLOSE ORDER */
 function closeOrder() {
-  const popup = document.getElementById("orderPopup");
-
-  if (popup) {
-    popup.style.display = "none";
-  }
+  document.getElementById("orderPopup").style.display = "none";
 }
 
-/* SELECT JAVA / BEDROCK */
 function selectEdition(type, element) {
   edition = type;
 
@@ -133,42 +69,32 @@ function selectEdition(type, element) {
   element.classList.add("active");
 }
 
-/* OPEN VIDEO */
 function openVideo(src) {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
   const videoSrc = document.getElementById("videoSrc");
 
-  if (!popup || !video || !videoSrc) return;
-
   popup.style.display = "flex";
   videoSrc.src = src;
-
   video.load();
   video.play();
 }
 
-/* CLOSE VIDEO */
 function closeVideo() {
   const popup = document.getElementById("imgPopup");
   const video = document.getElementById("popupVideo");
 
-  if (!popup || !video) return;
-
   popup.style.display = "none";
-
   video.pause();
   video.currentTime = 0;
 }
 
-/* CLICK BACKGROUND CLOSE */
 function closeImg(event) {
   if (event.target.id === "imgPopup") {
     closeVideo();
   }
 }
 
-/* SUBMIT RANK ORDER */
 async function submitOrder() {
   const usernameInput = document.getElementById("username");
   const fileInput = document.getElementById("proofUpload");
@@ -180,7 +106,7 @@ async function submitOrder() {
   status.innerHTML = "";
   status.classList.remove("error", "success");
 
-  if (username === "") {
+  if (!username) {
     status.classList.add("error");
     status.innerHTML = "❌ Username is required!";
     usernameInput.focus();
@@ -199,21 +125,25 @@ async function submitOrder() {
     return;
   }
 
+  if (BACKEND_URL.includes("YOUR_SUBDOMAIN")) {
+    status.classList.add("error");
+    status.innerHTML = "❌ Backend URL missing!";
+    return;
+  }
+
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
-
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
 
   const formData = new FormData();
-
   formData.append("username", username);
   formData.append("edition", edition);
   formData.append("cart", cartText);
   formData.append("receipt", receipt);
-  formData.append("shopType", SHOP_TYPE);
+  formData.append("deviceId", getDeviceId());
   formData.append("file", file);
 
   try {
@@ -225,8 +155,10 @@ async function submitOrder() {
       body: formData
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Backend failed");
+      throw new Error(data.error || "Backend failed");
     }
 
     status.innerHTML = `
@@ -246,48 +178,8 @@ async function submitOrder() {
     }, 3000);
 
   } catch (error) {
-    console.error(error);
-
     status.classList.remove("success");
     status.classList.add("error");
-    status.innerHTML = "❌ Failed to send order!";
+    status.innerHTML = `❌ ${error.message}`;
   }
 }
-
-/* DISABLE RIGHT CLICK */
-document.addEventListener("contextmenu", function(e) {
-  e.preventDefault();
-});
-
-/* DISABLE COMMON INSPECT KEYS */
-document.addEventListener("keydown", function(e) {
-  if (e.key === "F12") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "j") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "c") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.key.toLowerCase() === "u") {
-    e.preventDefault();
-    return false;
-  }
-
-  if (e.ctrlKey && e.key.toLowerCase() === "s") {
-    e.preventDefault();
-    return false;
-  }
-});
