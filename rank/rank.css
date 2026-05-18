@@ -540,36 +540,4 @@ display:flex;
 align-items:center;
 justify-content:center;
 }
-
-.verify-box{
-width:90%;
-max-width:430px;
-background:linear-gradient(145deg,#0f172a,#111827);
-border:1px solid rgba(255,255,255,.1);
-padding:36px 26px;
-border-radius:22px;
-text-align:center;
-box-shadow:
-0 25px 60px rgba(0,0,0,.55),
-0 0 35px rgba(34,197,94,.18);
-}
-
-.verify-box h2{
-font-size:24px;
-margin-bottom:12px;
-color:#22c55e;
-}
-
-.verify-box p{
-font-family:Arial,sans-serif;
-font-size:14px;
-opacity:.75;
-margin-bottom:22px;
-}
-
-.verify-box .cf-turnstile{
-display:flex;
-justify-content:center;
-}
-
 }
