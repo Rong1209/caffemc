@@ -9,8 +9,11 @@
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 <link rel="stylesheet" href="kit.css">
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
-<body>
+
+<body data-shop="KIT">
 
 <div class="bg-image"></div>
 <div class="bg-overlay"></div>
@@ -31,17 +34,22 @@
 
 </nav>
 
-<button class="checkout-top-btn" id="checkoutTopBtn" onclick="openOrder()">
+<button class="checkout-top-btn"
+id="checkoutTopBtn"
+onclick="openOrder()">
 🛒 Check Order
 </button>
 
 <!-- VIDEO POPUP -->
 
-<div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+<div class="img-popup"
+id="imgPopup"
+onclick="closeImg(event)">
 
 <div class="video-box">
 
-<div class="close-video" onclick="closeVideo()">×</div>
+<div class="close-video"
+onclick="closeVideo()">×</div>
 
 <video id="popupVideo" controls autoplay>
 <source id="videoSrc" src="" type="video/mp4">
@@ -71,9 +79,11 @@ Download QR
 </a>
 
 <div class="cart-list" id="cartList">
+
 <p style="text-align:center;opacity:.7;">
 Cart is empty
 </p>
+
 </div>
 
 <div class="input-box">
@@ -102,7 +112,12 @@ Bedrock
 <input
 type="file"
 id="proofUpload"
-accept="image/*">
+accept="image/png,image/jpeg,image/webp">
+
+<div
+class="cf-turnstile"
+data-sitekey="0x4AAAAAADRqeHYqMi58wtlC">
+</div>
 
 <button
 class="submit-btn"
@@ -266,7 +281,7 @@ Preview
 
 </section>
 
-<script src="../shop"></script>
+<script src="../shop.js"></script>
 
 </body>
 </html>
