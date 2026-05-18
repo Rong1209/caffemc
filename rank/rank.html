@@ -3,13 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>CAFFE MC - Ranks</title>
 
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 <link rel="stylesheet" href="rank.css">
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
 
-<body>
+<body data-shop="RANK">
 
 <div class="bg-image"></div>
 <div class="bg-overlay"></div>
@@ -33,7 +37,9 @@
 </button>
 
 <div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+
 <div class="video-box">
+
 <div class="close-video" onclick="closeVideo()">×</div>
 
 <video id="popupVideo" controls autoplay>
@@ -44,6 +50,7 @@
 </div>
 
 <div class="order-popup" id="orderPopup">
+
 <div class="order-box">
 
 <div class="close-btn" onclick="closeOrder()">×</div>
@@ -54,31 +61,48 @@
 
 <p class="qr-name">PISETH YOUN</p>
 
-<a href="../img/qr.png" download="PISETH-YOUN-QR.png" class="download-qr">
+<a href="../img/qr.png"
+download="PISETH-YOUN-QR.png"
+class="download-qr">
 Download QR
 </a>
 
 <div class="cart-list" id="cartList">
-<p style="text-align:center;opacity:.7;">Cart is empty</p>
+<p style="text-align:center;opacity:.7;">
+Cart is empty
+</p>
 </div>
 
 <div class="input-box">
-<input type="text" id="username" placeholder="Minecraft Username">
+<input
+type="text"
+id="username"
+placeholder="Minecraft Username">
 </div>
 
 <div class="edition-box">
 
-<div class="ed-btn active" onclick="selectEdition('Java', this)">
+<div class="ed-btn active"
+onclick="selectEdition('Java', this)">
 Java
 </div>
 
-<div class="ed-btn" onclick="selectEdition('Bedrock', this)">
+<div class="ed-btn"
+onclick="selectEdition('Bedrock', this)">
 Bedrock
 </div>
 
 </div>
 
-<input type="file" id="proofUpload" accept="image/*">
+<input
+type="file"
+id="proofUpload"
+accept="image/png,image/jpeg,image/webp">
+
+<div
+class="cf-turnstile"
+data-sitekey="0x4AAAAAADRqeHYqMi58wtlC">
+</div>
 
 <button class="submit-btn" onclick="submitOrder()">
 Submit Order
@@ -92,6 +116,7 @@ Submit Order
 <section class="rank-section">
 
 <div class="rank-card" data-rank="AMERICANO - $5">
+
 <img src="../img/kit3.png" alt="AMERICANO">
 
 <h2>AMERICANO</h2>
@@ -108,17 +133,23 @@ Submit Order
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('AMERICANO - $5', this)">
+
+<button class="buy"
+onclick="addToCart('AMERICANO - $5', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openVideo('../img/video.mp4')">
+<button class="view"
+onclick="openVideo('../img/video.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
+
 <div class="rank-card" data-rank="CAPPUCINO - $10">
+
 <img src="../img/kit4.png" alt="CAPPUCINO">
 
 <h2>CAPPUCINO</h2>
@@ -135,17 +166,23 @@ Preview
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('CAPPUCINO - $10', this)">
+
+<button class="buy"
+onclick="addToCart('CAPPUCINO - $10', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openVideo('../img/capuchino.mp4')">
+<button class="view"
+onclick="openVideo('../img/capuchino.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
+
 <div class="rank-card" data-rank="HOTLATTE - $15">
+
 <img src="../img/kit2.png" alt="HOTLATTE">
 
 <h2>HOTLATTE</h2>
@@ -163,17 +200,23 @@ Preview
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('HOTLATTE - $15', this)">
+
+<button class="buy"
+onclick="addToCart('HOTLATTE - $15', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openVideo('../img/hotlate.mp4')">
+<button class="view"
+onclick="openVideo('../img/hotlate.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
+
 <div class="rank-card" data-rank="EXSPRESSO - $20">
+
 <img src="../img/kit6.png" alt="EXSPRESSO">
 
 <h2>EXSPRESSO</h2>
@@ -192,17 +235,23 @@ Preview
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('EXSPRESSO - $20', this)">
+
+<button class="buy"
+onclick="addToCart('EXSPRESSO - $20', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openVideo('../img/expres.mp4')">
+<button class="view"
+onclick="openVideo('../img/expres.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
+
 <div class="rank-card" data-rank="UTL CAFFE - $25">
+
 <img src="../img/kit1.png" alt="UTL CAFFE">
 
 <h2>UTL CAFFE</h2>
@@ -221,19 +270,23 @@ Preview
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('UTL CAFFE - $25', this)">
+
+<button class="buy"
+onclick="addToCart('UTL CAFFE - $25', this)">
 Add to Cart
 </button>
 
-<button class="view" onclick="openVideo('../img/ultracaffe.mp4')">
+<button class="view"
+onclick="openVideo('../img/ultracaffe.mp4')">
 Preview
 </button>
+
 </div>
 </div>
 
 </section>
 
-<script src="../shop"></script>
+<script src="../shop.js"></script>
 
 </body>
 </html>
