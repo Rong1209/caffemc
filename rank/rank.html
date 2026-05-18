@@ -12,21 +12,6 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 </head>
-
-<body data-shop="RANK">
-
-<!-- VERIFY SCREEN -->
-
-<div class="verify-screen" id="verifyScreen">
-
-<div class="verify-box">
-
-<h2>Verify You Are Human</h2>
-
-<p>
-Please complete verification before using the shop.
-</p>
-
 <div
 class="cf-turnstile"
 data-sitekey="0x4AAAAAADRqeHYqMi58wtlC"
@@ -333,16 +318,6 @@ Preview
 </div>
 
 </section>
-
-<script>
-function turnstileSuccess() {
-  const verifyScreen = document.getElementById("verifyScreen");
-
-  if (verifyScreen) {
-    verifyScreen.style.display = "none";
-  }
-}
-</script>
 
 <script src="../shop.js"></script>
 
