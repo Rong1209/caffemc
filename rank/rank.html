@@ -15,8 +15,33 @@
 
 <body data-shop="RANK">
 
+<!-- VERIFY SCREEN -->
+
+<div class="verify-screen" id="verifyScreen">
+
+<div class="verify-box">
+
+<h2>Verify You Are Human</h2>
+
+<p>
+Please complete verification before using the shop.
+</p>
+
+<div
+class="cf-turnstile"
+data-sitekey="0x4AAAAAADRqeHYqMi58wtlC"
+data-callback="turnstileSuccess">
+</div>
+
+</div>
+</div>
+
+<!-- BACKGROUND -->
+
 <div class="bg-image"></div>
 <div class="bg-overlay"></div>
+
+<!-- NAVBAR -->
 
 <nav class="navbar">
 
@@ -25,22 +50,33 @@
 </a>
 
 <div class="cart-area">
+
 <button class="cart-btn" onclick="openOrder()">
 🛒 Cart (<span id="cartCount" class="cart-count">0</span>)
 </button>
+
 </div>
 
 </nav>
 
-<button class="checkout-top-btn" id="checkoutTopBtn" onclick="openOrder()">
+<!-- CHECKOUT BUTTON -->
+
+<button class="checkout-top-btn"
+id="checkoutTopBtn"
+onclick="openOrder()">
 🛒 Check Order
 </button>
 
-<div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+<!-- VIDEO POPUP -->
+
+<div class="img-popup"
+id="imgPopup"
+onclick="closeImg(event)">
 
 <div class="video-box">
 
-<div class="close-video" onclick="closeVideo()">×</div>
+<div class="close-video"
+onclick="closeVideo()">×</div>
 
 <video id="popupVideo" controls autoplay>
 <source id="videoSrc" src="" type="video/mp4">
@@ -48,6 +84,8 @@
 
 </div>
 </div>
+
+<!-- ORDER POPUP -->
 
 <div class="order-popup" id="orderPopup">
 
@@ -57,7 +95,9 @@
 
 <h2>ORDER CHECKOUT</h2>
 
-<img src="../img/qr.png" class="qr" alt="QR Code">
+<img src="../img/qr.png"
+class="qr"
+alt="QR Code">
 
 <p class="qr-name">PISETH YOUN</p>
 
@@ -68,16 +108,20 @@ Download QR
 </a>
 
 <div class="cart-list" id="cartList">
+
 <p style="text-align:center;opacity:.7;">
 Cart is empty
 </p>
+
 </div>
 
 <div class="input-box">
+
 <input
 type="text"
 id="username"
 placeholder="Minecraft Username">
+
 </div>
 
 <div class="edition-box">
@@ -99,12 +143,8 @@ type="file"
 id="proofUpload"
 accept="image/png,image/jpeg,image/webp">
 
-<div
-class="cf-turnstile"
-data-sitekey="0x4AAAAAADRqeHYqMi58wtlC">
-</div>
-
-<button class="submit-btn" onclick="submitOrder()">
+<button class="submit-btn"
+onclick="submitOrder()">
 Submit Order
 </button>
 
@@ -113,7 +153,11 @@ Submit Order
 </div>
 </div>
 
+<!-- RANK SECTION -->
+
 <section class="rank-section">
+
+<!-- AMERICANO -->
 
 <div class="rank-card" data-rank="AMERICANO - $5">
 
@@ -147,6 +191,7 @@ Preview
 </div>
 </div>
 
+<!-- CAPPUCINO -->
 
 <div class="rank-card" data-rank="CAPPUCINO - $10">
 
@@ -180,6 +225,7 @@ Preview
 </div>
 </div>
 
+<!-- HOTLATTE -->
 
 <div class="rank-card" data-rank="HOTLATTE - $15">
 
@@ -214,6 +260,7 @@ Preview
 </div>
 </div>
 
+<!-- EXSPRESSO -->
 
 <div class="rank-card" data-rank="EXSPRESSO - $20">
 
@@ -249,6 +296,7 @@ Preview
 </div>
 </div>
 
+<!-- UTL CAFFE -->
 
 <div class="rank-card" data-rank="UTL CAFFE - $25">
 
@@ -285,6 +333,16 @@ Preview
 </div>
 
 </section>
+
+<script>
+function turnstileSuccess() {
+  const verifyScreen = document.getElementById("verifyScreen");
+
+  if (verifyScreen) {
+    verifyScreen.style.display = "none";
+  }
+}
+</script>
 
 <script src="../shop.js"></script>
 
