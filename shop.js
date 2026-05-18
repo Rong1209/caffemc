@@ -9,7 +9,10 @@ const DATA_NAME = SHOP_TYPE.toLowerCase();
 
 async function getVerifiedDeviceToken() {
   let token = localStorage.getItem("caffemc_device_token");
-  if (token) return token;
+
+  if (token) {
+    return token;
+  }
 
   const turnstileToken =
     document.querySelector('[name="cf-turnstile-response"]')?.value;
@@ -26,21 +29,32 @@ async function getVerifiedDeviceToken() {
     body: formData
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
     throw new Error(data.error || "Device verification failed.");
   }
 
+  if (!data.deviceToken) {
+    throw new Error("Device token missing from backend.");
+  }
+
   localStorage.setItem("caffemc_device_token", data.deviceToken);
+
   return data.deviceToken;
 }
 
 function addToCart(item, button) {
   const found = cart.find(i => i.name === item);
 
-  if (found) found.qty += 1;
-  else cart.push({ name: item, qty: 1 });
+  if (found) {
+    found.qty += 1;
+  } else {
+    cart.push({
+      name: item,
+      qty: 1
+    });
+  }
 
   if (button) {
     const card = button.closest(CARD_CLASS);
@@ -57,11 +71,16 @@ function updateCart() {
 
   const totalItems = cart.reduce((a, b) => a + b.qty, 0);
 
-  if (cartCount) cartCount.innerText = totalItems;
+  if (cartCount) {
+    cartCount.innerText = totalItems;
+  }
 
   if (checkoutTopBtn) {
-    if (totalItems > 0) checkoutTopBtn.classList.add("show");
-    else checkoutTopBtn.classList.remove("show");
+    if (totalItems > 0) {
+      checkoutTopBtn.classList.add("show");
+    } else {
+      checkoutTopBtn.classList.remove("show");
+    }
   }
 
   if (!cartList) return;
@@ -94,6 +113,7 @@ function updateCart() {
 
 function removeItem(index) {
   const removedItem = cart[index].name;
+
   cart.splice(index, 1);
 
   const stillExists = cart.find(i => i.name === removedItem);
@@ -113,13 +133,20 @@ function removeItem(index) {
 
 function openOrder() {
   const popup = document.getElementById("orderPopup");
-  if (popup) popup.style.display = "flex";
+
+  if (popup) {
+    popup.style.display = "flex";
+  }
+
   updateCart();
 }
 
 function closeOrder() {
   const popup = document.getElementById("orderPopup");
-  if (popup) popup.style.display = "none";
+
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
 
 function selectEdition(type, element) {
@@ -237,6 +264,7 @@ async function submitOrder() {
   const receipt = "CAFFE-" + Math.floor(100000 + Math.random() * 900000);
 
   let cartText = "";
+
   cart.forEach(item => {
     cartText += `• ${item.name} x${item.qty}\n`;
   });
@@ -248,11 +276,12 @@ async function submitOrder() {
     }
 
     status.classList.add("success");
-    status.innerHTML = "⏳ Verifying...";
+    status.innerHTML = "⏳ Checking CAPTCHA...";
 
     const deviceToken = await getVerifiedDeviceToken();
 
     const formData = new FormData();
+
     formData.append("username", username);
     formData.append("edition", edition);
     formData.append("cart", cartText);
@@ -271,7 +300,10 @@ async function submitOrder() {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      if (data.error && data.error.includes("Invalid verification")) {
+      if (
+        data.error &&
+        data.error.toLowerCase().includes("invalid verification")
+      ) {
         localStorage.removeItem("caffemc_device_token");
       }
 
@@ -311,7 +343,9 @@ async function submitOrder() {
 document.addEventListener("contextmenu", e => e.preventDefault());
 
 document.addEventListener("keydown", function(e) {
-  if (e.key === "F12") e.preventDefault();
+  if (e.key === "F12") {
+    e.preventDefault();
+  }
 
   if (
     e.ctrlKey &&
