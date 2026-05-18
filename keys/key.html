@@ -8,67 +8,115 @@
 
 <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
 <link rel="stylesheet" href="key.css">
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
 
-<body>
+<body data-shop="KEY">
 
 <div class="bg-image"></div>
 <div class="bg-overlay"></div>
 
 <nav class="navbar">
 
-<a href="../index.html" class="back-btn">← Back</a>
+<a href="../index.html" class="back-btn">
+← Back
+</a>
 
 <div class="cart-area">
+
 <button class="cart-btn" onclick="openOrder()">
 🛒 Cart (<span id="cartCount" class="cart-count">0</span>)
 </button>
+
 </div>
 
 </nav>
 
-<button class="checkout-top-btn" id="checkoutTopBtn" onclick="openOrder()">
+<button class="checkout-top-btn"
+id="checkoutTopBtn"
+onclick="openOrder()">
 🛒 Check Order
 </button>
 
-<div class="img-popup" id="imgPopup" onclick="closeImg(event)">
+<div class="img-popup"
+id="imgPopup"
+onclick="closeImg(event)">
+
 <div class="image-box">
-<div class="close-video" onclick="closeImage()">×</div>
+
+<div class="close-video"
+onclick="closeImage()">×</div>
+
 <img id="popupImage" src="" alt="Preview">
+
 </div>
 </div>
 
 <div class="order-popup" id="orderPopup">
+
 <div class="order-box">
 
 <div class="close-btn" onclick="closeOrder()">×</div>
 
 <h2>ORDER CHECKOUT</h2>
 
-<img src="../img/qr.png" class="qr" alt="QR Code">
+<img src="../img/qr.png"
+class="qr"
+alt="QR Code">
 
 <p class="qr-name">PISETH YOUN</p>
 
-<a href="../img/qr.png" download="PISETH-YOUN-QR.png" class="download-qr">
+<a href="../img/qr.png"
+download="PISETH-YOUN-QR.png"
+class="download-qr">
 Download QR
 </a>
 
 <div class="cart-list" id="cartList">
-<p style="text-align:center;opacity:.7;">Cart is empty</p>
+
+<p style="text-align:center;opacity:.7;">
+Cart is empty
+</p>
+
 </div>
 
 <div class="input-box">
-<input type="text" id="username" placeholder="Minecraft Username">
+
+<input
+type="text"
+id="username"
+placeholder="Minecraft Username">
+
 </div>
 
 <div class="edition-box">
-<div class="ed-btn active" onclick="selectEdition('Java', this)">Java</div>
-<div class="ed-btn" onclick="selectEdition('Bedrock', this)">Bedrock</div>
+
+<div class="ed-btn active"
+onclick="selectEdition('Java', this)">
+Java
 </div>
 
-<input type="file" id="proofUpload" accept="image/*">
+<div class="ed-btn"
+onclick="selectEdition('Bedrock', this)">
+Bedrock
+</div>
 
-<button class="submit-btn" onclick="submitOrder()">
+</div>
+
+<input
+type="file"
+id="proofUpload"
+accept="image/png,image/jpeg,image/webp">
+
+<div
+class="cf-turnstile"
+data-sitekey="0x4AAAAAADRqeHYqMi58wtlC">
+</div>
+
+<button class="submit-btn"
+onclick="submitOrder()">
 Submit Order
 </button>
 
@@ -79,51 +127,96 @@ Submit Order
 
 <section class="key-section">
 
+<!-- UTL KEY -->
+
 <div class="key-card" data-key="UTL KEY">
+
 <img src="../img/ultkey.png" alt="UTL KEY">
 
 <div>
+
 <h2>UTL KEY</h2>
+
 <p class="price">$0.99</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('UTL KEY - $0.99', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/ultimatekey.png')">Preview</button>
+
+<button class="buy"
+onclick="addToCart('UTL KEY - $0.99', this)">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openImage('../img/ultimatekey.png')">
+Preview
+</button>
+
 </div>
 </div>
 
+<!-- HOTLATTE KEY -->
+
 <div class="key-card" data-key="HOTLATTE KEY">
+
 <img src="../img/hotllate.png" alt="HOTLATTE KEY">
 
 <div>
+
 <h2>HOTLATTE KEY</h2>
+
 <p class="price">$0.49</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('HOTLATTE KEY - $0.49', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/hotkey.png')">Preview</button>
+
+<button class="buy"
+onclick="addToCart('HOTLATTE KEY - $0.49', this)">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openImage('../img/hotkey.png')">
+Preview
+</button>
+
 </div>
 </div>
 
+<!-- CAPPUCINO KEY -->
+
 <div class="key-card" data-key="CAPPUCINO KEY">
+
 <img src="../img/123123.png" alt="CAPPUCINO KEY">
 
 <div>
+
 <h2>CAPPUCINO KEY</h2>
+
 <p class="price">$0.25</p>
+
 </div>
 
 <div class="btns">
-<button class="buy" onclick="addToCart('CAPPUCINO KEY - $0.25', this)">Add to Cart</button>
-<button class="view" onclick="openImage('../img/capukey.png')">Preview</button>
+
+<button class="buy"
+onclick="addToCart('CAPPUCINO KEY - $0.25', this)">
+Add to Cart
+</button>
+
+<button class="view"
+onclick="openImage('../img/capukey.png')">
+Preview
+</button>
+
 </div>
 </div>
 
 </section>
 
-<script src="../shop"></script>
+<script src="../shop.js"></script>
 
 </body>
 </html>
