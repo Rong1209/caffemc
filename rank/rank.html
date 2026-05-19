@@ -12,12 +12,6 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 </head>
-<div
-class="cf-turnstile"
-data-sitekey="0x4AAAAAADRqeHYqMi58wtlC"
-data-callback="turnstileSuccess">
-</div>
-
 </div>
 </div>
 
@@ -127,7 +121,11 @@ Bedrock
 type="file"
 id="proofUpload"
 accept="image/png,image/jpeg,image/webp">
-
+<div
+class="cf-turnstile"
+data-sitekey="0x4AAAAAADRqeHYqMi58wtlC"
+data-callback="turnstileSuccess">
+</div>
 <button class="submit-btn"
 onclick="submitOrder()">
 Submit Order
